@@ -12,7 +12,7 @@ using RiHack_RitehKromanjonci.Data;
 namespace RiHack_RitehKromanjonci.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231007155500_InitialCreate")]
+    [Migration("20231007204648_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -41,6 +41,9 @@ namespace RiHack_RitehKromanjonci.Migrations
 
                     b.Property<double>("Longitude")
                         .HasColumnType("double precision");
+
+                    b.Property<int>("NumberOfJoins")
+                        .HasColumnType("integer");
 
                     b.Property<string>("PostDescription")
                         .IsRequired()
@@ -76,11 +79,16 @@ namespace RiHack_RitehKromanjonci.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Users");
                 });
@@ -96,6 +104,15 @@ namespace RiHack_RitehKromanjonci.Migrations
 
             modelBuilder.Entity("RiHack_RitehKromanjonci.Models.User", b =>
                 {
+                    b.HasOne("RiHack_RitehKromanjonci.Models.User", null)
+                        .WithMany("Friends")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("RiHack_RitehKromanjonci.Models.User", b =>
+                {
+                    b.Navigation("Friends");
+
                     b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618

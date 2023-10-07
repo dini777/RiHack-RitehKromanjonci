@@ -26,7 +26,7 @@
                 @if (showLogin)
                 {
                     <div style="margin-left: 20px;">
-                        <NavLink class="nav-link button" href="Login" style="color: white;">Prijava</NavLink>
+                        <NavLink onclick="@(async () => {await Task.Delay(3000); showLogin = false; StateHasChanged();})" class="nav-link button" href="Login" style="color: white;">Prijava</NavLink>
                     </div>
                 }
                 else
@@ -72,8 +72,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-
-        loggedUser = Context.Users.FirstOrDefault()!;
+        var email = "karlojakopov@gmail.com";
+        loggedUser = Context.Users.Where(x => x.Email == email).FirstOrDefault()!;
 
         if(loggedUser is null)
         {

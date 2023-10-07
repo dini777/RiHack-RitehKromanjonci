@@ -6,8 +6,8 @@
 
 <div style="display: flex; justify-content: space-between;">
     <div style="text-align: center;">
-        <img style="width: 200px; height: 200px;" src="./images/Avatar-Picture.png" alt="Avatar">
-        <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">username</p>
+        <img style="width: 200px; height: 200px;" src="./images/4.png" alt="Avatar">
+        <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">@(loggedUser.Username ?? "Username")</p>
     </div>
     <div>
         <p>broj bodova</p>
@@ -42,6 +42,22 @@
 <div style="display: flex; justify-content: space-between;">
     <div style="text-align: center; width:50%;">
         <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">Prijatelji</p>
+        @if(friends is not null)
+        {
+            @foreach (var friend in friends)
+            {
+                <div style="display: flex; align-items: center; border: solid 2px black; border-radius: 5px;">
+                    <img style="margin-right: 20%; margin-left: 5%; width: 200px; height: 200px;" src="./images/1.png" alt="Trainer-Picture">
+                    <p style="margin-top: 5px;  font-weight: bold; font-size: 50px;">@friend.Username</p>
+                </div>
+            }
+        }
+        else
+        {
+            <p style="margin-top: 5px; font-weight: bold; font-size: 15px;">Nažalost još nemate prijatelja</p>
+        }
+        
+        
     </div>
     <div style="text-align: center; width:50%;">
         <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">Objave</p>
@@ -65,12 +81,14 @@
     private string Rank { get; set; } = "Rekreativac";
     private User? loggedUser { get; set; }
     private List<PostModel> posts { get; set; }
+    private List<User> friends { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
 
         loggedUser = Context.Users.FirstOrDefault()!;
         posts = loggedUser.Posts.ToList();
+        friends = Context.Users.Where(x => x.Id <= 1).ToList();
 
         StateHasChanged();
 
