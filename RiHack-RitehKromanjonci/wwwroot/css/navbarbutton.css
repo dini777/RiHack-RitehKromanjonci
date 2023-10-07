@@ -35,3 +35,9 @@
         transform: translateX(6px);
     }
 }
+
+/* Add padding or margins to your page content to prevent it from being obscured by the navbar */
+/* For example: */
+body {
+    padding-top: 60px; /* Adjust as needed to match the height of your navbar */
+}

@@ -6,22 +6,24 @@
 @inject IHttpContextAccessor HttpContextAccessor
 @inject IJSRuntime JSRuntime
 
+<link href="./css/createpost.css" rel="stylesheet" />
+
 @if (loggedUser is not null)
 {
     <div class="post_container">
-        <div>
-            <div class="username">
+        <div class= "flex-container">
+            <div class="box">
                 <p>@loggedUser.Username</p>
             </div>
-            <div class="location-time">
+            <div>
                 <InputDate @bind-Value="TimeOfEvent" />
             </div>
         </div>
-        <div>
-            <input />
+        <div class="inputbox">
+            <input type="text" class="my-input" placeholder="Opišite Event koji organizirate..." />
         </div>
         <div class="row">
-            <div class="col-xl-6">
+            <div class="map">
                 <RadzenGoogleMap 
                             Style="height: 600px;" 
                             Zoom="@zoom"  
