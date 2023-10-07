@@ -2,25 +2,26 @@
 @using System.Security.Claims
 @using RiHack_RitehKromanjonci.Models;
 
+<link href="~/css/" rel="stylesheet">
+
 @inject AppDbContext Context
 @inject IHttpContextAccessor HttpContextAccessor
 @inject IJSRuntime jsruntine
 
 <div class="post_container">
     <div>
-        <div class="username">
-            <p>@Username</p>
-        </div>
         <div class="location-time">
             <p>@EventTime</p>
+        </div>
+        <div class="username">
+            <p>@Username:</p>
         </div>
     </div>
     <div>
         <p>@PostDescription</p>
     </div>
-    <div class="row">
-        <div class="col-xl-6">
-            <RadzenGoogleMap Style="height: 600px;"
+        <div class="map">
+            <RadzenGoogleMap Style="height: 600px; width: 70rem;"
                                 Zoom="@zoom"
                                 Center="@(new GoogleMapPosition(){ Lat = Latitude, Lng = Longitude })">
                 <Markers>
@@ -29,7 +30,6 @@
             </RadzenGoogleMap>
         </div>
     </div>
-</div>
     
 
 
