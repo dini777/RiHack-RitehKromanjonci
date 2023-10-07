@@ -6,22 +6,24 @@
 @inject IHttpContextAccessor HttpContextAccessor
 @inject IJSRuntime JSRuntime
 
+<link href="./css/createpost.css" rel="stylesheet" />
+
 @if (loggedUser is not null)
 {
     <div class="post_container">
-        <div>
-            <div class="username">
+        <div class= "flex-container">
+            <div class="box">
                 <p>@loggedUser.Username</p>
             </div>
-            <div class="location-time">
+            <div>
                 <InputDate @bind-Value="TimeOfEvent" />
             </div>
         </div>
-        <div>
-            <input />
+        <div class="inputbox">
+            <input type="text" class="my-input" placeholder="Opišite Event koji organizirate..." />
         </div>
         <div class="row">
-            <div class="col-xl-6">
+            <div class="map">
                 <RadzenGoogleMap 
                             Style="height: 600px;" 
                             Zoom="@zoom"  
@@ -38,6 +40,10 @@
 
 
 @code {
+    public string Email { get; set; }
+    public string Username { get; set; }
+    public string Password { get; set; }
+
     private User? loggedUser { get; set; }
     private int zoom = 14;
     private bool showCurrentLocationMarker;
@@ -48,10 +54,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        //var email = GetUserEmailFromCookie();
-        var email = "karlojakopov@gmail.com";
+        var email = "";
 
-        loggedUser = Context.Users.Where(x => x.Email == email).FirstOrDefault()!;
+        loggedUser = Context.Users.FirstOrDefault()!;
 
         await base.OnInitializedAsync();
     }
@@ -80,39 +85,6 @@
     {
         userLatitude = args.Position.Lat;
         userLongitude = args.Position.Lng;
-    }
-
-    private Dictionary<string, string> ParseCookieData(string cookieValue)
-    {
-        var data = new Dictionary<string, string>();
-        var keyValuePairs = cookieValue.Split('&');
-        foreach (var keyValuePair in keyValuePairs)
-        {
-            var parts = keyValuePair.Split('=');
-            if (parts.Length == 2)
-            {
-                var key = parts[0];
-                var value = parts[1];
-                data[key] = value;
-            }
-        }
-        return data;
-    }
-
-    // Get the user's email from the cookie
-    public string GetUserEmailFromCookie()
-    {
-        var principal = HttpContextAccessor.HttpContext.User;
-        if (principal.Identity.IsAuthenticated)
-        {
-            var emailClaim = principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
-            var email = emailClaim?.Value ?? "Not Found";
-            return email;
-        }
-        else
-        {
-            return "Not authenticated";
-        }
     }
 
 }

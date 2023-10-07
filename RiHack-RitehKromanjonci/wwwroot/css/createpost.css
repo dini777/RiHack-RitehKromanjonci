@@ -1,0 +1,23 @@
+﻿.post-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.flex-container {
+display: flex;
+}
+
+.box {
+    flex: 1; /* Allow boxes to take equal space */
+    height: 25px; /* Set the height */
+    margin: 15px; /* Optional: Add margin between the boxes */
+}
+
+.inputbox {
+    flex: 1; /* Allow boxes to take equal space */
+    height: 25px; /* Set the height */
+    margin: 15px; /* Optional: Add margin between the boxes */
+}
