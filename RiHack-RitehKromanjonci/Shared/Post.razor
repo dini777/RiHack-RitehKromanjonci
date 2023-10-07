@@ -8,7 +8,7 @@
 @inject IHttpContextAccessor HttpContextAccessor
 @inject IJSRuntime jsruntine
 
-<div class="post_container">
+<div class="post_container" style="justify-content: cetner; align-content: center;">
     <div>
         <div class="location-time">
             <p>@EventTime</p>
@@ -20,16 +20,18 @@
     <div>
         <p>@PostDescription</p>
     </div>
-        <div class="map">
-            <RadzenGoogleMap Style="height: 600px; width: 70rem;"
-                                Zoom="@zoom"
-                                Center="@(new GoogleMapPosition(){ Lat = Latitude, Lng = Longitude })">
-                <Markers>
-                    <RadzenGoogleMapMarker Position="@(new GoogleMapPosition(){ Lat = Latitude, Lng = Longitude })" />
-                </Markers>
-            </RadzenGoogleMap>
-        </div>
+    <div class="map">
+        <RadzenGoogleMap Style="height: 600px; width: 70rem;"
+                            Zoom="@zoom"
+                            Center="@(new GoogleMapPosition(){ Lat = Latitude, Lng = Longitude })">
+            <Markers>
+                <RadzenGoogleMapMarker Position="@(new GoogleMapPosition(){ Lat = Latitude, Lng = Longitude })" />
+            </Markers>
+        </RadzenGoogleMap>
+        
+        
     </div>
+</div>
     
 
 
@@ -49,6 +51,11 @@
     [Parameter]
     public double Longitude { get; set; }
 
+    [Parameter]
+    public int Joins { get; set; }
+
     private int zoom = 14;
+
+    
 
 }
