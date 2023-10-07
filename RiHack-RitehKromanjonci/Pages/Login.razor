@@ -1,5 +1,9 @@
 ﻿<link href="./css/login.css" rel="stylesheet" />
 
+@inject AppDbContext dbContext
+@inject NavigationManager navigationManager
+@inject IJSRuntime jsRuntime
+
 @page "/login"
 @using System.ComponentModel.DataAnnotations;
 @using Microsoft.EntityFrameworkCore;
