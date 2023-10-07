@@ -4,6 +4,10 @@
 @using Microsoft.JSInterop;
 @using RiHack_RitehKromanjonci.Data;
 
+@inject AppDbContext dbContext
+@inject IJSRuntime jsRuntime
+@inject NavigationManager navigationManager
+
 <h3>Login</h3>
 
 
@@ -79,8 +83,6 @@
         }
     }
 
-    @inject AppDbContext dbContext
-    @inject IJSRuntime jsRuntime
-    @inject NavigationManager navigationManager
+    
 
 }

@@ -15,6 +15,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpClient();
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
