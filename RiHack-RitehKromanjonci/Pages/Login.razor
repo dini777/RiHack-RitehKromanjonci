@@ -1,9 +1,15 @@
 ﻿@page "/login"
 @using System.ComponentModel.DataAnnotations;
 @using Microsoft.EntityFrameworkCore;
+@using Microsoft.JSInterop;
 @using RiHack_RitehKromanjonci.Data;
 
+@inject AppDbContext dbContext
+@inject IJSRuntime jsRuntime
+@inject NavigationManager navigationManager
+
 <h3>Login</h3>
+
 
 <EditForm Model="loginModel" OnValidSubmit="LoginUser">
     <DataAnnotationsValidator />
@@ -25,6 +31,7 @@
         <button type="submit" class="btn btn-primary">Login</button>
     </div>
 </EditForm>
+
 
 @if (!string.IsNullOrEmpty(loginModel.ErrorMessage))
 {
@@ -56,8 +63,18 @@
         if (user != null)
         {
             // Authentication successful
+            // Set a cookie with the user's email
+            var options = new CookieOptions
+                {
+                    Expires = DateTime.Now.AddHours(1), // Set the expiration time for the cookie
+                    IsEssential = true // This marks the cookie as essential for the app's functionality
+                };
+
+            await jsRuntime.InvokeVoidAsync("setEmailCookie", loginModel.Email, 3600); // Save email for 1 hour (3600 seconds)
+
+
             // Redirect to a dashboard or another page
-            navigationManager.NavigateTo("/dashboard");
+            navigationManager.NavigateTo("/");
         }
         else
         {
@@ -66,8 +83,6 @@
         }
     }
 
-    @inject AppDbContext dbContext
-    @inject IJSRuntime jsRuntime
-    @inject NavigationManager navigationManager
+    
 
 }
