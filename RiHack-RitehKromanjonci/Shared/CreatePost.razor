@@ -15,26 +15,24 @@
             <div class="box">
                 <p>@loggedUser.Username</p>
             </div>
-            <div>
+            <div class="box">
                 <InputDate @bind-Value="TimeOfEvent" />
             </div>
         </div>
-        <div class="inputbox">
-            <input type="text" class="my-input" placeholder="Opišite Event koji organizirate..." />
-        </div>
-        <div class="row">
-            <div class="map">
-                <RadzenGoogleMap 
-                            Style="height: 600px;" 
-                            Zoom="@zoom"  
-                            MapClick="@OnMapClick"
-                            Center="@(new GoogleMapPosition(){ Lat = userLatitude, Lng = userLongitude })">
-                    <Markers>
-                        <RadzenGoogleMapMarker Position="@(new GoogleMapPosition(){ Lat = userLatitude, Lng = userLongitude })" />
-                    </Markers>
-                </RadzenGoogleMap>
-            </div>
-        </div>
+       
+    </div>
+    <div class="input-container">
+        <input type="text" class="my-input" placeholder="Opišite aktivnost..." />
+    </div>
+    <div class="map">
+        <RadzenGoogleMap Style="height: 600px;"
+                         Zoom="@zoom"
+                         MapClick="@OnMapClick"
+                         Center="@(new GoogleMapPosition(){ Lat = userLatitude, Lng = userLongitude })">
+            <Markers>
+                <RadzenGoogleMapMarker Position="@(new GoogleMapPosition(){ Lat = userLatitude, Lng = userLongitude })" />
+            </Markers>
+        </RadzenGoogleMap>
     </div>
 }
 
