@@ -1,34 +1,38 @@
-﻿@page "/register"
+﻿<link href="./css/registration.css" rel="stylesheet"/>
+
+@page "/register"
 @using System.ComponentModel.DataAnnotations;
 @using RiHack_RitehKromanjonci.Data;
 @using RiHack_RitehKromanjonci.Models;
 
-<h3>Register</h3>
+<h3 class="form-group" style="font-family: Arial, sans-serif; font-weight: bold; font-size: 24px;">
+    Register
+</h3>
 
 <EditForm Model="registrationModel" OnValidSubmit="RegisterUser">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <div class="form-group">
-        <label for="Email">Email:</label>
-        <InputText id="Email" @bind-Value="registrationModel.Email" class="form-control" />
+    <div class="form-group email">
+        @*<label for="Email">Email:</label>*@
+        <InputText id="Email" @bind-Value="registrationModel.Email" class="form-control" placeholder="Email"/>
         <ValidationMessage For="() => registrationModel.Email" />
     </div>
 
     <div class="form-group">
-        <label for="Username">Username:</label>
-        <InputText id="Username" @bind-Value="registrationModel.Username" class="form-control" />
+        @*<label for="Username">Username:</label>*@
+        <InputText id="Username" @bind-Value="registrationModel.Username" class="form-control" placeholder="Username" />
         <ValidationMessage For="() => registrationModel.Username" />
     </div>
 
     <div class="form-group">
-        <label for="Password">Password:</label>
-        <InputText id="Password" type="password" @bind-Value="registrationModel.Password" class="form-control" />
+        @*<label for="Password">Password:</label>*@
+        <InputText id="Password" type="password" @bind-Value="registrationModel.Password" class="form-control" placeholder="Password" />
         <ValidationMessage For="() => registrationModel.Password" />
     </div>
 
     <div class="form-group">
-        <button type="submit" class="btn btn-primary">Register</button>
+        <button type="submit" class="register-button">Register</button>
     </div>
 </EditForm>
 
