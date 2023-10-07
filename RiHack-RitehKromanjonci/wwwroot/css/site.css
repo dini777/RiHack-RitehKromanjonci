@@ -3,6 +3,7 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #c7f9cc;
 }
 
 h1:focus {
