@@ -1,12 +1,36 @@
 ﻿@page "/"
+@using RiHack_RitehKromanjonci.Data;
+@using RiHack_RitehKromanjonci.Models;
+
+@inject AppDbContext Context
 
 <PageTitle>Sportleaf</PageTitle>
 
 <CreatePost />
 
-<Post />
+@if (posts is not null)
+{
+    foreach (var post in posts)
+    {
+        <Post Username="@post.UserName"
+              PostDescription="@post.PostDescription"
+              EventTime="@post.EventTime"
+              Latitude="@post.Latitude"
+              Longitude="@post.Longitude" />
+    }
+}
 
 @code{
-    
+    private List<PostModel> posts { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        posts = Context.Posts.ToList();
+
+        StateHasChanged();
+
+        await base.OnInitializedAsync();
+    }
 
 }

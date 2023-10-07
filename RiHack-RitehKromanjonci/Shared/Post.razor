@@ -6,49 +6,49 @@
 @inject IHttpContextAccessor HttpContextAccessor
 @inject IJSRuntime jsruntine
 
-@if(posts is not null)
-{
-    @foreach (var post in posts)
-    {
-        <div class="post_container">
-            <div>
-                <div class="username">
-                    <p>@post.UserName</p>
-                </div>
-                <div class="location-time">
-                    <p>@post.EventTime</p>
-                </div>
-            </div>
-            <div>
-                <p>@post.PostDescription</p>
-            </div>
-            <div class="row">
-                <div class="col-xl-6">
-                    <RadzenGoogleMap Style="height: 600px;"
-                                     Zoom="@zoom"
-                                     Center="@(new GoogleMapPosition(){ Lat = post.Latitude, Lng = post.Longitude })">
-                        <Markers>
-                            <RadzenGoogleMapMarker Position="@(new GoogleMapPosition(){ Lat = post.Latitude, Lng = post.Longitude })" />
-                        </Markers>
-                    </RadzenGoogleMap>
-                </div>
-            </div>
+<div class="post_container">
+    <div>
+        <div class="username">
+            <p>@Username</p>
         </div>
-    }
-}
+        <div class="location-time">
+            <p>@EventTime</p>
+        </div>
+    </div>
+    <div>
+        <p>@PostDescription</p>
+    </div>
+    <div class="row">
+        <div class="col-xl-6">
+            <RadzenGoogleMap Style="height: 600px;"
+                                Zoom="@zoom"
+                                Center="@(new GoogleMapPosition(){ Lat = Latitude, Lng = Longitude })">
+                <Markers>
+                    <RadzenGoogleMapMarker Position="@(new GoogleMapPosition(){ Lat = Latitude, Lng = Longitude })" />
+                </Markers>
+            </RadzenGoogleMap>
+        </div>
+    </div>
+</div>
+    
 
 
 @code {
+    [Parameter]
+    public string Username { get; set; }
+
+    [Parameter]
+    public DateTime EventTime { get; set; }
+
+    [Parameter]
+    public string PostDescription { get; set; }
+
+    [Parameter]
+    public double Latitude { get; set; }
+
+    [Parameter]
+    public double Longitude { get; set; }
+
     private int zoom = 14;
-    private User? loggedUser { get; set; }
-    private List<PostModel> posts { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-
-        posts = Context.Posts.ToList();
-
-        await base.OnInitializedAsync();
-    }
 
 }

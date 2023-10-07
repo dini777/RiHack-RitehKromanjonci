@@ -1,14 +1,79 @@
 ﻿@page "/user_profile"
+@using RiHack_RitehKromanjonci.Data;
+@using RiHack_RitehKromanjonci.Models;
 
-<div style="display: flex;">
+@inject AppDbContext Context
+
+<div style="display: flex; justify-content: space-between;">
     <div style="text-align: center;">
         <img style="width: 200px; height: 200px;" src="./images/Avatar-Picture.png" alt="Avatar">
         <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">username</p>
     </div>
     <div>
-
+        <p>broj bodova</p>
     </div>
+    @if (Rank == "Pocetnik")
+    {
+        <div style="text-align: center;">
+            <img style="width: 200px; height: 200px;" src="./images/1.png" alt="Beginner-Picture">
+            <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">Početnik</p>
+        </div>
+    }
+
+    @if (Rank == "Rekreativac")
+    {
+        <div style="text-align: center;">
+            <img style="width: 200px; height: 200px;" src="./images/2.png" alt="Intermediate-Picture">
+            <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">Rekreativac</p>
+        </div>
+    }
+
+    @if (Rank == "Trener")
+    {
+        <div style="text-align: center;">
+            <img style="width: 200px; height: 200px;" src="./images/3.png" alt="Trainer-Picture">
+            <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">Trener</p>
+        </div>
+    }
+    
+</div>
+
+
+<div style="display: flex; justify-content: space-between;">
+    <div style="text-align: center; width:50%;">
+        <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">Prijatelji</p>
+    </div>
+    <div style="text-align: center; width:50%;">
+        <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">Objave</p>
+        @if(posts is not null)
+        {
+            foreach(var post in posts)
+            {
+                <Post 
+                    Username="@post.UserName"
+                    PostDescription="@post.PostDescription"
+                    EventTime="@post.EventTime"
+                    Latitude="@post.Latitude"
+                    Longitude="@post.Longitude"/>
+            }
+        }
+    </div>
+
 </div>
 
 @code {
+    private string Rank { get; set; } = "Rekreativac";
+    private User? loggedUser { get; set; }
+    private List<PostModel> posts { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        loggedUser = Context.Users.FirstOrDefault()!;
+        posts = loggedUser.Posts.ToList();
+
+        StateHasChanged();
+
+        await base.OnInitializedAsync();
+    }
 }
