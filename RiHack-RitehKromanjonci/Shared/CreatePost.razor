@@ -1,0 +1,118 @@
+﻿@using RiHack_RitehKromanjonci.Data
+@using System.Security.Claims
+@using RiHack_RitehKromanjonci.Models;
+
+@inject AppDbContext Context
+@inject IHttpContextAccessor HttpContextAccessor
+@inject IJSRuntime JSRuntime
+
+@if (loggedUser is not null)
+{
+    <div class="post_container">
+        <div>
+            <div class="username">
+                <p>@loggedUser.Username</p>
+            </div>
+            <div class="location-time">
+                <InputDate @bind-Value="TimeOfEvent" />
+            </div>
+        </div>
+        <div>
+            <input />
+        </div>
+        <div class="row">
+            <div class="col-xl-6">
+                <RadzenGoogleMap 
+                            Style="height: 600px;" 
+                            Zoom="@zoom"  
+                            MapClick="@OnMapClick"
+                            Center="@(new GoogleMapPosition(){ Lat = userLatitude, Lng = userLongitude })">
+                    <Markers>
+                        <RadzenGoogleMapMarker Position="@(new GoogleMapPosition(){ Lat = userLatitude, Lng = userLongitude })" />
+                    </Markers>
+                </RadzenGoogleMap>
+            </div>
+        </div>
+    </div>
+}
+
+
+@code {
+    private User? loggedUser { get; set; }
+    private int zoom = 14;
+    private bool showCurrentLocationMarker;
+    private string clickedPosition = "";
+    private double userLatitude = 45.339441070869256;
+    private double userLongitude = 14.427323128634512;
+    private DateTime TimeOfEvent = DateTime.UtcNow;
+
+    protected override async Task OnInitializedAsync()
+    {
+        //var email = GetUserEmailFromCookie();
+        var email = "karlojakopov@gmail.com";
+
+        loggedUser = Context.Users.Where(x => x.Email == email).FirstOrDefault()!;
+
+        await base.OnInitializedAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("getLocation", DotNetObjectReference.Create(this));
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    [JSInvokable]
+    public async Task OnLocationReceived(double latitude, double longitude)
+    {
+        // Do something with the latitude and longitude
+        // For example, you can store it in a property or send it to the server.
+        userLatitude = latitude;
+        userLongitude = longitude;
+        StateHasChanged(); // Update the UI if needed
+    }
+
+    void OnMapClick(GoogleMapClickEventArgs args)
+    {
+        userLatitude = args.Position.Lat;
+        userLongitude = args.Position.Lng;
+    }
+
+    private Dictionary<string, string> ParseCookieData(string cookieValue)
+    {
+        var data = new Dictionary<string, string>();
+        var keyValuePairs = cookieValue.Split('&');
+        foreach (var keyValuePair in keyValuePairs)
+        {
+            var parts = keyValuePair.Split('=');
+            if (parts.Length == 2)
+            {
+                var key = parts[0];
+                var value = parts[1];
+                data[key] = value;
+            }
+        }
+        return data;
+    }
+
+    // Get the user's email from the cookie
+    public string GetUserEmailFromCookie()
+    {
+        var principal = HttpContextAccessor.HttpContext.User;
+        if (principal.Identity.IsAuthenticated)
+        {
+            var emailClaim = principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+            var email = emailClaim?.Value ?? "Not Found";
+            return email;
+        }
+        else
+        {
+            return "Not authenticated";
+        }
+    }
+
+}
