@@ -1,23 +1,48 @@
 ﻿.post-container {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
 }
 
 
 .flex-container {
-display: flex;
+    display: flex;
 }
 
 .box {
     flex: 1; /* Allow boxes to take equal space */
     height: 25px; /* Set the height */
     margin: 15px; /* Optional: Add margin between the boxes */
+    position: center;
 }
 
 .inputbox {
     flex: 1; /* Allow boxes to take equal space */
     height: 25px; /* Set the height */
     margin: 15px; /* Optional: Add margin between the boxes */
+}
+
+.my-input {
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    padding: 10px;
+    border: 3px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s;
+    width: 36rem;
+    height: 5rem;
+}
+
+.map {
+    margin-top: 40px;
+    width: 60%;
+}
+
+/* Add a slight border color change on focus for user feedback */
+.my-input:focus {
+    border-color: #007bff;
+    outline: none;
 }
