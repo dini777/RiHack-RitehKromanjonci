@@ -40,7 +40,7 @@
 
 
 <div style="display: flex; justify-content: space-between;">
-    <div style="text-align: center; width:50%;">
+    <div style="text-align: center; width:30%;">
         <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">Prijatelji</p>
         @if(friends is not null)
         {
@@ -59,18 +59,24 @@
         
         
     </div>
-    <div style="text-align: center; width:50%;">
+    <div style="text-align: center; width:70%; margin-left: 200px;">
         <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">Objave</p>
         @if(posts is not null)
         {
             foreach(var post in posts)
             {
-                <Post 
-                    Username="@post.UserName"
-                    PostDescription="@post.PostDescription"
-                    EventTime="@post.EventTime"
-                    Latitude="@post.Latitude"
-                    Longitude="@post.Longitude"/>
+                <div>
+                    <Post Username="@post.UserName"
+                          PostDescription="@post.PostDescription"
+                          EventTime="@post.EventTime"
+                          Latitude="@post.Latitude"
+                          Longitude="@post.Longitude"
+                          Joins="@post.NumberOfJoins"/>
+                </div>
+
+                <br />
+                <br />
+                <br />
             }
         }
     </div>

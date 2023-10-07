@@ -13,10 +13,22 @@
     foreach (var post in posts)
     {
         <Post Username="@post.UserName"
-              PostDescription="@post.PostDescription"
-              EventTime="@post.EventTime"
-              Latitude="@post.Latitude"
-              Longitude="@post.Longitude" />
+                PostDescription="@post.PostDescription"
+                EventTime="@post.EventTime"
+                Latitude="@post.Latitude"
+                Longitude="@post.Longitude"
+                Joins="@post.NumberOfJoins" />
+
+        <div style="width: 60%; display: flex; align-content:end; justify-content: space-between; margin: auto;">
+            <button onclick="@(() => {UpdateJoins(post.UserName);})" style="display: flex; align-items: center; background-color: #E5383B;" class="button">
+                <i class="material-icons" style="margin-right: 10px; margin-left: -5px; color: white;" aria-hidden="true">add_circle</i>
+                Pridruži se
+            </button>
+            <div class="button" style="background-color: #E5383B;">
+                @($"People joined: {post.NumberOfJoins}")
+            </div>
+        </div>
+        
     }
 }
 
@@ -31,6 +43,21 @@
         StateHasChanged();
 
         await base.OnInitializedAsync();
+    }
+
+    void UpdateJoins(string Username)
+    {
+        var post = Context.Posts.Where(x => x.UserName == Username).FirstOrDefault();
+
+        if (post is not null)
+        {
+            post.NumberOfJoins++;
+            Context.Posts.Update(post);
+            Context.SaveChanges();
+            StateHasChanged();
+        }
+
+        
     }
 
 }
