@@ -1,15 +1,45 @@
 ﻿@inherits LayoutComponentBase
 <link href="./css/navbarbutton.css" rel="stylesheet" />
-<PageTitle>RiHack-RitehKromanjonci</PageTitle>
+<PageTitle>Sportleaf</PageTitle>
 
 <div class="page">
-    <div style="background-color: darkgreen;">
-        <NavMenu />
-    </div>
-
     <main>
-        <div class="top-row px-4" style="background-color: darkgreen;">
-            <button class="button">Login</button>
+        <div class="top-row px-4" style="background-color: darkgreen; display: flex; justify-content: space-between;">
+            
+            <div class="top-row px-4" style="background-color: darkgreen;">
+                @*LIJEVA STRANA*@
+                <div class="nav-item">
+                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                        <i class="material-icons" style="margin-right: 10px; margin-left: -5px;" aria-hidden="true">home</i>
+                    </NavLink>
+                </div>
+            </div>
+
+            <div class="top-row px-4" style="background-color: darkgreen;">
+                @*DESNA STRANA*@
+                @*AKO NIJE ULOGIRAN POKAZI LOGIN, AKO JE ULOGIRAN POKAZI PROFIL, MESSAGES ITD..*@
+                <div style="margin-left: 20px;">
+                    <button class="button">Login</button>
+                </div>
+
+                <div class="nav-item">
+                    <NavLink class="nav-link" href="user_profile" Match="NavLinkMatch.All">
+                        <i class="material-icons" style="margin-right: 10px; margin-left: -5px;" aria-hidden="true">account_circle</i>
+                    </NavLink>
+                </div>
+
+                <div class="nav-item">
+                    <NavLink class="nav-link" href="user_profile" Match="NavLinkMatch.All">
+                        <i class="material-icons" style="margin-right: 10px; margin-left: -5px;" aria-hidden="true">chat</i>
+                    </NavLink>
+                </div>
+
+                <div class="nav-item">
+                    <NavLink class="nav-link" href="user_profile" Match="NavLinkMatch.All">
+                        <i class="material-icons" style="margin-right: 10px; margin-left: -5px;" aria-hidden="true">settings</i>
+                    </NavLink>
+                </div>
+            </div>
         </div>
 
         <article class="content px-4">
