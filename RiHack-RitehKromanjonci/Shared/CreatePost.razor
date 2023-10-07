@@ -14,7 +14,7 @@
                 <p>@loggedUser.Username</p>
             </div>
             <div class="location-time">
-                <p>@DateTime.UtcNow</p>
+                <InputDate @bind-Value="TimeOfEvent" />
             </div>
         </div>
         <div>
@@ -22,9 +22,6 @@
         </div>
         <div class="row">
             <div class="col-xl-6">
-                <h3>
-                    <RadzenCheckBox @bind-Value="@showCurrentLocationMarker" />
-                </h3>
                 <RadzenGoogleMap 
                             Style="height: 600px;" 
                             Zoom="@zoom"  
@@ -47,6 +44,7 @@
     private string clickedPosition = "";
     private double userLatitude = 45.339441070869256;
     private double userLongitude = 14.427323128634512;
+    private DateTime TimeOfEvent = DateTime.UtcNow;
 
     protected override async Task OnInitializedAsync()
     {
