@@ -1,8 +1,6 @@
 ﻿@page "/replytodiscussion/{postId:int}"
-
 @using RiHack_RitehKromanjonci.Data;
-@using RiHack_RitehKromanjonci.Models // Replace with your actual namespace
-@using Microsoft.EntityFrameworkCore
+@using RiHack_RitehKromanjonci.Models;
 @inject AppDbContext dbContext
 @inject NavigationManager navigationManager
 
@@ -18,7 +16,7 @@
         <ValidationMessage For="() => newReply.Content" />
     </div>
 
-    <button type="submit" href="./Discussions" class="btn btn-primary">Submit Reply</button>
+    <button type="submit" class="btn btn-primary">Submit Reply</button>
 </EditForm>
 
 @if (replySubmitted)
@@ -54,6 +52,9 @@
                 newReply = new Reply();
 
                 replySubmitted = true;
+
+                // Redirect to the DiscussionList.razor page
+                navigationManager.NavigateTo("/Discussions");
             }
             else
             {
@@ -69,4 +70,5 @@
             replySubmitted = false;
         }
     }
+
 }
