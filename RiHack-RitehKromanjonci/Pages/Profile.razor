@@ -16,7 +16,7 @@
         <div>
             <p>broj bodova</p>
         </div>
-        @if (Rank == "Pocetnik")
+        @if (Rank == Rank.Beginner)
         {
             <div style="text-align: center;">
                 <img style="width: 200px; height: 200px;" src="./images/1.png" alt="Beginner-Picture">
@@ -24,7 +24,7 @@
             </div>
         }
 
-        @if (Rank == "Rekreativac")
+        @if (Rank == Rank.Intermediate)
         {
             <div style="text-align: center;">
                 <img style="width: 200px; height: 200px;" src="./images/2.png" alt="Intermediate-Picture">
@@ -32,7 +32,7 @@
             </div>
         }
 
-        @if (Rank == "Trener")
+        @if (Rank == Rank.Trainer)
         {
             <div style="text-align: center;">
                 <img style="width: 200px; height: 200px;" src="./images/3.png" alt="Trainer-Picture">
@@ -92,7 +92,8 @@
 
 
 @code {
-    private string Rank { get; set; } = "Rekreativac";
+    private Rank Rank { get; set; } = Rank.Empty;
+
     private User? loggedUser { get; set; }
     private List<PostModel> posts { get; set; }
     private List<User> friends { get; set; }

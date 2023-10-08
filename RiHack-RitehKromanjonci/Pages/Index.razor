@@ -28,6 +28,28 @@
 {
     foreach (var post in posts)
     {
+        if (loggedUser.Friends.Where(y => y.Username == post.UserName).FirstOrDefault() is not null)
+        {
+            <div style="width: 60%; display: flex; align-content:end; justify-content: space-between; margin: auto;">
+                <button style="display: flex; align-items: center; color: white; background-color: #E5383B;">
+                    <i class="material-icons" style="margin-right: 10px; margin-left: -5px; color: white;" aria-hidden="true">check_circle</i>
+                    Friends
+                </button>
+            </div>
+        }
+        else
+        {
+            if (post.UserName != loggedUser.Username)
+            {
+                <div style="width: 60%; display: flex; align-content:end; justify-content: space-between; margin: auto;">
+                    <button onclick="@(() => {AddFriend(post.UserId);})" style="display: flex; align-items: center; color: white; background-color: #E5383B;">
+                        <i class="material-icons" style="margin-right: 10px; margin-left: -5px; color: white;" aria-hidden="true">group_add</i>
+                        Add Friend
+                    </button>
+                </div>
+            }
+        }
+        
         <Post Username="@post.UserName"
                 PostDescription="@post.PostDescription"
                 EventTime="@post.EventTime"
@@ -36,11 +58,11 @@
                 Joins="@post.NumberOfJoins" />
 
         <div style="width: 60%; display: flex; align-content:end; justify-content: space-between; margin: auto;">
-            <button onclick="@(() => {UpdateJoins(post.Id);})" style="display: flex; align-items: center; background-color: #E5383B;" class="button">
+            <button onclick="@(() => {UpdateJoins(post.Id);})" style="display: flex; align-items: center; color: white; background-color: #E5383B;" class="button">
                 <i class="material-icons" style="margin-right: 10px; margin-left: -5px; color: white;" aria-hidden="true">add_circle</i>
                 Pridruži se
             </button>
-            <div class="button" style="background-color: #E5383B;">
+            <div class="button" style="color: white; background-color: #E5383B;">
                 @($"People joined: {post.NumberOfJoins}")
             </div>
         </div>
@@ -61,7 +83,7 @@
         var email = GetUserEmailFromCookie();
 
         loggedUser = Context.Users.Where(x => x.Email == email).FirstOrDefault()!;
-        
+
         posts = Context.Posts.ToList();
 
         StateHasChanged();
@@ -83,6 +105,27 @@
 
     }
 
+    async Task AddFriend(int userId)
+    {
+        var user = Context.Users.Where(x => x.Id == userId).First();
+        if(user is not null)
+        {
+            if (loggedUser.Friends.Contains(user))
+            {
+                return;
+            }
+            else
+            {
+                loggedUser.Friends.Add(user);
+                Context.Users.Update(loggedUser);
+                await Context.SaveChangesAsync();
+            }
+            
+        }
+        
+
+    }
+
     async Task PublicateThePost()
     {
         var post = new PostModel
@@ -100,9 +143,6 @@
         await Context.SaveChangesAsync();
 
         StateHasChanged();
-        navManager.NavigateTo("/");
-
-
     }
 
     private Dictionary<string, string> ParseCookieData(string cookieValue)
