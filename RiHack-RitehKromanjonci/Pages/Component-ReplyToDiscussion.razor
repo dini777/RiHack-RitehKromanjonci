@@ -1,0 +1,136 @@
+﻿@page "/com"
+@using RiHack_RitehKromanjonci.Data;
+@using RiHack_RitehKromanjonci.Models;
+@inject AppDbContext dbContext
+@inject NavigationManager navigationManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <title>Sportleaf</title>
+    <!-- style css link -->
+    <link rel="stylesheet" href="./css/index-novi.css">
+    <!-- fontawesome css link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+    
+<!-- header section start -->
+
+
+    <header>
+        <div class="header-container">
+            <div class="header-wrapper">
+                <div class="logoBox">
+                    <button><img src="images/icons8-home-480.png" alt="home"></button>
+                </div>
+                <div class="searchBox">
+                    <input type="search">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="iconBox2">
+                    <button><img src="images/icons8-chat-50.png" alt="chat"></button>
+                    <button><img src="images/icons8-logout-30.png" alt="logout"></button>
+                    <button><label><img src="images/user.jpg" alt="user"></label></button>
+            
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+<!-- header section end -->
+<!-- home section start -->
+
+
+<div class="home">
+    <div class="container">
+        <div class="home-weapper">
+
+            <!-- home center start here -->
+
+            <div class="home-center">
+                <div class="home-center-wrapper">
+
+                    <div class="createPost">
+
+                            <EditForm Model="newReply" OnValidSubmit="SubmitReply">
+                                <DataAnnotationsValidator />
+                                <ValidationSummary />
+
+                                <div class="form-group">
+                                    <label class="tekst" for="content">Reply Content</label>
+                                    <InputText id="content" @bind-Value="newReply.Content" class="form-control" />
+                                    <ValidationMessage For="() => newReply.Content" />
+                                </div>
+
+                                <button type="submit" class="submit-button">Submit Reply</button>
+                            </EditForm>
+
+                            @if (replySubmitted)
+                            {
+                                <p>Reply submitted successfully!</p>
+                            }
+                    </div>
+                </div> <!-- home center wrapper end -->
+            </div> <!-- home center end -->
+        </div>
+    </div>
+</div>
+<!-- home section end -->
+</body>
+</html>
+
+@code {
+    [Parameter]
+    public int postId { get; set; }
+
+    private Reply newReply = new Reply();
+
+    private bool replySubmitted = false;
+
+    private async Task SubmitReply()
+    {
+        try
+        {
+            var post = await dbContext.DiscussionPosts.FindAsync(postId);
+
+            if (post != null)
+            {
+                // Set the parent discussion post using the PostId property
+                newReply.PostId = postId;
+
+                // Add the reply to the DbSet for your Reply entity
+                dbContext.Set<Reply>().Add(newReply);
+
+                await dbContext.SaveChangesAsync(); // Save changes to the database
+
+                // Clear the reply form
+                newReply = new Reply();
+
+                replySubmitted = true;
+
+                // Redirect to the DiscussionList.razor page
+                navigationManager.NavigateTo("/Discussions");
+            }
+            else
+            {
+                // Handle the case where the discussion post with the given ID doesn't exist
+                replySubmitted = false;
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle any exceptions that may occur during database save
+            // Log the error, display a message to the user, etc.
+            Console.WriteLine($"Error: {ex.Message}");
+            replySubmitted = false;
+        }
+    }
+
+}
