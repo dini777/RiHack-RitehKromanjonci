@@ -6,124 +6,164 @@
 @inject AppDbContext Context
 @inject IHttpContextAccessor HttpContextAccessor
 
-<!-- header section start -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <title>Sportleaf</title>
+    <!-- style css link -->
+    <link rel="stylesheet" href="./css/index-novi.css">
+    <!-- fontawesome css link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+
+    <!-- header section start -->
 
 
-<header>
-    <div class="header-container">
-        <div class="header-wrapper">
-            <div class="logoBox">
-                <button><a href="./"><img src="images/icons8-home-480.png" alt="home"></a></button>
+    <header>
+        <div class="header-container">
+            <div class="header-wrapper">
+                <div class="logoBox">
+                    <button><a href="./"><img src="images/icons8-home-480.png" alt="home"></a></button>
+                </div>
+                <div class="searchBox">
+                    <input type="search">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="iconBox2">
+                    <button><a href="./Discussions"><img src="images/icons8-chat-50.png" alt="chat"></a></button>
+                    <button><a href="./logout"><img src="images/icons8-logout-30.png" alt="logout"></a></button>
+
+                </div>
             </div>
-            <div class="searchBox">
-                <input type="search">
-                <i class="fas fa-search"></i>
-            </div>
-            <div class="iconBox2">
-                <button><a href="./Discussions"><img src="images/icons8-chat-50.png" alt="chat"></a></button>
-                <button><a href="./logout"><img src="images/icons8-logout-30.png" alt="logout"></a></button>
-                <button><a href="./user_profile"><label><img src="images/user.jpg" alt="user"></label></a></button>
+        </div>
+    </header>
 
+
+    <!-- header section end -->
+    <!-- home section start -->
+
+
+    <div class="home">
+        <div class="container">
+            <div class="home-weapper">
+                <div class="home-center">
+                    <div class="home-center-wrapper">
+                        @if (loggedUser is not null)
+                        {
+                            <div style="display: flex; justify-content: space-between;">
+                                <div style="text-align: center;">
+                                    <img style="width: 200px; height: 200px;" src="./images/4.png" alt="Avatar">
+                                    <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">@(loggedUser.Username)</p>
+                                </div>
+                                <div>
+                                    <h2 style="font-size: 20px; color: darkred; font-weight: bold;">Broj Bodova: @points</h2>
+                                </div>
+                                @if (loggedUser.Ranks == Rank.Beginner)
+                                {
+                                    <div style="text-align: center;">
+                                        <img style="width: 200px; height: 200px;" src="./images/1.png" alt="Beginner-Picture">
+                                        <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">Početnik</p>
+                                    </div>
+                                }
+
+                                @if (loggedUser.Ranks == Rank.Intermediate)
+                                {
+                                    <div style="text-align: center;">
+                                        <img style="width: 200px; height: 200px;" src="./images/2.png" alt="Intermediate-Picture">
+                                        <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">Rekreativac</p>
+                                    </div>
+                                }
+
+                                @if (loggedUser.Ranks == Rank.Trainer)
+                                {
+                                    <div style="text-align: center;">
+                                        <img style="width: 200px; height: 200px;" src="./images/3.png" alt="Trainer-Picture">
+                                        <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">Trener</p>
+                                    </div>
+                                }
+
+                            </div>
+
+
+                            <div style="display: flex; justify-content: space-between;">
+                                <div style="text-align: center; width:30%;">
+                                    <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">Prijatelji</p>
+                                    @if (friends is not null)
+                                    {
+                                        @foreach (var friend in friends)
+                                        {
+                                            <div style="display: flex; align-items: center; border: solid 2px black; border-radius: 5px;">
+                                                @if (friend.Ranks == Rank.Beginner)
+                                                {
+                                                    <img style="width: 200px; height: 200px;" src="./images/1.png" alt="Beginner-Picture">
+                                                }
+
+                                                @if (friend.Ranks == Rank.Intermediate)
+                                                {
+                                                    <img style="width: 200px; height: 200px;" src="./images/2.png" alt="Intermediate-Picture">
+                                                }
+
+                                                @if (friend.Ranks == Rank.Trainer)
+                                                {
+                                                    <img style="width: 200px; height: 200px;" src="./images/3.png" alt="Trainer-Picture">
+                                                }
+                                                <p style="margin-top: 5px;  font-weight: bold; font-size: 50px;">@friend.Username</p>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <p style="margin-top: 5px; font-weight: bold; font-size: 15px;">Nažalost još nemate prijatelja</p>
+                                    }
+
+
+                                </div>
+                                <div style="text-align: center; width:70%; margin-left: 200px;">
+                                    <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">Objave</p>
+                                    @if (posts is not null)
+                                    {
+                                        foreach (var post in posts)
+                                        {
+                                            <div class="createPost">
+
+                                                <h3 class="mini-headign">@post.UserName</h3>
+                                                <div class="post-text">
+                                                    <p>@($"{post.UserName} je objavio event: {post.PostDescription}")</p>
+                                                </div>
+                                                <div class="post-text">
+                                                    <RadzenGoogleMap Style="height: 200px;"
+                                                                     Zoom="@zoom"
+                                                                     Center="@(new GoogleMapPosition(){ Lat = post.Latitude, Lng = post.Longitude })">
+                                                        <Markers>
+                                                            <RadzenGoogleMapMarker Position="@(new GoogleMapPosition(){ Lat = post.Latitude, Lng = post.Longitude })" />
+                                                        </Markers>
+                                                    </RadzenGoogleMap>
+                                                </div>
+                                            </div>
+                                            <br />
+                                        }
+                                    }
+                                </div>
+
+                            </div>
+
+                        }
+                    </div> <!-- home center wrapper end -->
+                </div> <!-- home center end -->
             </div>
         </div>
     </div>
-</header>
-
-@if (loggedUser is not null)
-{
-    <div style="display: flex; justify-content: space-between;">
-        <div style="text-align: center;">
-            <img style="width: 200px; height: 200px;" src="./images/4.png" alt="Avatar">
-            <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">@(loggedUser.Username)</p>
-        </div>
-        <div>
-            <p>Broj Bodova: @points</p>
-        </div>
-        @if (loggedUser.Ranks == Rank.Beginner)
-        {
-            <div style="text-align: center;">
-                <img style="width: 200px; height: 200px;" src="./images/1.png" alt="Beginner-Picture">
-                <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">Početnik</p>
-            </div>
-        }
-
-        @if (loggedUser.Ranks == Rank.Intermediate)
-        {
-            <div style="text-align: center;">
-                <img style="width: 200px; height: 200px;" src="./images/2.png" alt="Intermediate-Picture">
-                <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">Rekreativac</p>
-            </div>
-        }
-
-        @if (loggedUser.Ranks == Rank.Trainer)
-        {
-            <div style="text-align: center;">
-                <img style="width: 200px; height: 200px;" src="./images/3.png" alt="Trainer-Picture">
-                <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">Trener</p>
-            </div>
-        }
-
-    </div>
+    <!-- home section end -->
+</body>
+</html>
 
 
-    <div style="display: flex; justify-content: space-between;">
-        <div style="text-align: center; width:30%;">
-            <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">Prijatelji</p>
-            @if (friends is not null)
-            {
-                @foreach (var friend in friends)
-                {
-                    <div style="display: flex; align-items: center; border: solid 2px black; border-radius: 5px;">
-                        @if (friend.Ranks == Rank.Beginner)
-                        {
-                            <img style="width: 200px; height: 200px;" src="./images/1.png" alt="Beginner-Picture">
-                        }
-
-                        @if (friend.Ranks == Rank.Intermediate)
-                        {
-                            <img style="width: 200px; height: 200px;" src="./images/2.png" alt="Intermediate-Picture">
-                        }
-
-                        @if (friend.Ranks == Rank.Trainer)
-                        {
-                            <img style="width: 200px; height: 200px;" src="./images/3.png" alt="Trainer-Picture">
-                        }
-                        <p style="margin-top: 5px;  font-weight: bold; font-size: 50px;">@friend.Username</p>
-                    </div>
-                }
-            }
-            else
-            {
-                <p style="margin-top: 5px; font-weight: bold; font-size: 15px;">Nažalost još nemate prijatelja</p>
-            }
-
-
-        </div>
-        <div style="text-align: center; width:70%; margin-left: 200px;">
-            <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">Objave</p>
-            @if (posts is not null)
-            {
-                foreach (var post in posts)
-                {
-                    <div>
-                        <Post Username="@post.UserName"
-                              PostDescription="@post.PostDescription"
-                              EventTime="@post.EventTime"
-                              Latitude="@post.Latitude"
-                              Longitude="@post.Longitude"
-                              Joins="@post.NumberOfJoins" />
-                    </div>
-
-                    <br />
-                    <br />
-                    <br />
-                }
-            }
-        </div>
-
-    </div>
-    
-}
 
 
 @code {
@@ -131,6 +171,7 @@
     private User? loggedUser { get; set; }
     private List<PostModel> posts { get; set; }
     private List<User> friends { get; set; }
+    private int zoom = 14;
 
     protected override async Task OnInitializedAsync()
     {
