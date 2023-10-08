@@ -8,5 +8,9 @@ public class DiscussionPost
     public string Author { get; set; }
     public DateTime DatePosted { get; set; }
 
+    //public User User { get; set; }
+
     public List<Reply> Replies { get; set; } = new List<Reply>();
+
+    public bool ShowReplies { get; set; } = false;
 }
