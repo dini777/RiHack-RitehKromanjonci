@@ -21,7 +21,8 @@ namespace RiHack_RitehKromanjonci.Migrations
                     Title = table.Column<string>(type: "text", nullable: false),
                     Content = table.Column<string>(type: "text", nullable: false),
                     Author = table.Column<string>(type: "text", nullable: false),
-                    DatePosted = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    DatePosted = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    ShowReplies = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {

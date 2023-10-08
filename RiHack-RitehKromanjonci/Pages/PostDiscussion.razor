@@ -1,8 +1,10 @@
-﻿@page "/PostDiscussion"
+﻿@page "/PostDiscussionssss"
 @using RiHack_RitehKromanjonci.Data;
 @using RiHack_RitehKromanjonci.Models;
 @inject AppDbContext dbContext
 @inject NavigationManager navigationManager
+@inject IHttpContextAccessor HttpContextAccessor
+@using System.Security.Claims;
 
 <h3>Post a New Discussion</h3>
 
@@ -21,14 +23,31 @@
 @code {
     private DiscussionPost newDiscussion = new DiscussionPost();
 
+    public string GetUserEmailFromCookie()
+    {
+        var principal = HttpContextAccessor.HttpContext.User;
+        if (principal.Identity.IsAuthenticated)
+        {
+            var emailClaim = principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+            var email = emailClaim?.Value ?? "Not Found";
+            return email;
+        }
+        else
+        {
+            return "Not authenticated";
+        }
+    }
+
     private async Task SubmitDiscussion()
     {
-        newDiscussion.Author = "User"; // You can implement user authentication to set the actual author
+        newDiscussion.Author = GetUserEmailFromCookie(); // You can implement user authentication to set the actual author
         newDiscussion.DatePosted = DateTime.UtcNow;
 
         dbContext.DiscussionPosts.Add(newDiscussion);
         await dbContext.SaveChangesAsync();
 
-        navigationManager.NavigateTo("/"); // Redirect to the discussion list
+        navigationManager.NavigateTo("/Discussions"); // Redirect to the discussion list
     }
+
+    
 }

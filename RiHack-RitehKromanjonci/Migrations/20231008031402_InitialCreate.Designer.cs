@@ -12,7 +12,7 @@ using RiHack_RitehKromanjonci.Data;
 namespace RiHack_RitehKromanjonci.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231008020259_InitialCreate")]
+    [Migration("20231008031402_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -43,6 +43,9 @@ namespace RiHack_RitehKromanjonci.Migrations
 
                     b.Property<DateTime>("DatePosted")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool>("ShowReplies")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Title")
                         .IsRequired()
