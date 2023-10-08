@@ -8,82 +8,174 @@
 @inject IJSRuntime JSRuntime
 @inject NavigationManager navManager
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <title>Sportleaf</title>
+    <!-- style css link -->
+    <link rel="stylesheet" href="./css/index-novi.css">
+    <!-- fontawesome css link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<PageTitle>Sportleaf</PageTitle>
+</head>
+<body>
+    
+<!-- header section start -->
 
 
-@if (loggedUser is not null)
-{
-    <CreatePost Username="@loggedUser.Username"
-                PostDescription="@activityDescription"
-                EventTime="@TimeOfEvent"
-                Latitude="@userLatitude"
-                Longitude="@userLongitude" />
-    <button onclick="@(async () => {await PublicateThePost();})" style="width: 100%; align-content: center;" class="button">Objavi</button>
-}
-
-
-
-@if (posts is not null && loggedUser is not null)
-{
-    foreach (var post in posts)
-    {
-        if (loggedUser.Friends.Where(y => y.Username == post.UserName).FirstOrDefault() is not null)
-        {
-            <div style="width: 60%; display: flex; align-content:end; justify-content: space-between; margin: auto;">
-                <button style="display: flex; align-items: center; color: white; background-color: #E5383B;">
-                    <i class="material-icons" style="margin-right: 10px; margin-left: -5px; color: white;" aria-hidden="true">check_circle</i>
-                    Friends
-                </button>
-            </div>
-        }
-        else
-        {
-            if (post.UserName != loggedUser.Username)
-            {
-                <div style="width: 60%; display: flex; align-content:end; justify-content: space-between; margin: auto;">
-                    <button onclick="@(() => {AddFriend(post.UserId);})" style="display: flex; align-items: center; color: white; background-color: #E5383B;">
-                        <i class="material-icons" style="margin-right: 10px; margin-left: -5px; color: white;" aria-hidden="true">group_add</i>
-                        Add Friend
-                    </button>
+    <header>
+        <div class="header-container">
+            <div class="header-wrapper">
+                <div class="logoBox">
+                    <button><a href="./"><img src="images/icons8-home-480.png" alt="home"></a></button>
                 </div>
-            }
-        }
-        
-        <Post Username="@post.UserName"
-                PostDescription="@post.PostDescription"
-                EventTime="@post.EventTime"
-                Latitude="@post.Latitude"
-                Longitude="@post.Longitude"
-                Joins="@post.NumberOfJoins" />
-
-        <div style="width: 60%; display: flex; align-content:end; justify-content: space-between; margin: auto;">
-            <button onclick="@(() => {UpdateJoins(post.Id);})" style="display: flex; align-items: center; color: white; background-color: #E5383B;" class="button">
-                <i class="material-icons" style="margin-right: 10px; margin-left: -5px; color: white;" aria-hidden="true">add_circle</i>
-                Pridruži se
-            </button>
-            <div class="button" style="color: white; background-color: #E5383B;">
-                @($"People joined: {post.NumberOfJoins}")
+                <div class="searchBox">
+                    <input type="search">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="iconBox2">
+                    <button><a href="./Discussions"><img src="images/icons8-chat-50.png" alt="chat"></a></button>
+                    <button><a href="./logout"><img src="images/icons8-logout-30.png" alt="logout"></a></button>
+                    <button><a href="./user_profile"><label><img src="images/user.jpg" alt="user"></label></a></button>
+            
+                </div>
             </div>
         </div>
-        
-    }
-}
+    </header>
+
+
+<!-- header section end -->
+<!-- home section start -->
+
+
+<div class="home">
+    <div class="container">
+        <div class="home-weapper">"
+
+            <!-- home center start here -->
+
+            <div class="home-center">
+                <div class="home-center-wrapper">
+                    @if (LoggedUser is not null)
+                    {
+                        <div class="createPost">
+
+                            <h3 class="mini-headign">Create Post</h3>
+                            <div class="post-text">
+                                <img src="images/user.jpg" alt="user">
+                                <input type="text-area" class="my-input" placeholder="@($"{LoggedUser.Username} Opišite aktivnost...")" @bind="PostDescription" />
+                            </div>
+                            <div class="post-text">
+                                <RadzenGoogleMap Style="height: 200px;"
+                                                    Zoom="@zoom"
+                                                    MapClick="@OnMapClick"
+                                                    Center="@(new GoogleMapPosition(){ Lat = Latitude, Lng = Longitude })">
+                                    <Markers>
+                                        <RadzenGoogleMapMarker Position="@(new GoogleMapPosition(){ Lat = Latitude, Lng = Longitude })" />
+                                    </Markers>
+                                </RadzenGoogleMap>
+                            </div>
+
+                            <div class="post-icon" style="justify-content: space-between; display: flex;">
+                                <InputDate style="background: #ff4154;" class="fa-solid fa-camera" @bind-Value="EventTime" />
+                                <button onclick="@(async () => {await PublicateThePost();})" style="background: #00d181;">Objavi</button>
+                            </div>
+                        </div>
+
+                        if(posts is not null)
+                        {
+                            foreach (var post in posts)
+                            {
+                                <div class="createPost">
+
+                                    <h3 class="mini-headign">@post.UserName</h3>
+                                    <div class="post-text">
+                                        <p>@($"{post.UserName} je objavio event: {post.PostDescription}")</p>
+                                    </div>
+                                    <div class="post-text">
+                                        <RadzenGoogleMap Style="height: 200px;"
+                                                            Zoom="@zoom"
+                                                            MapClick="@OnMapClick"
+                                                            Center="@(new GoogleMapPosition(){ Lat = post.Latitude, Lng = post.Longitude })">
+                                            <Markers>
+                                                <RadzenGoogleMapMarker Position="@(new GoogleMapPosition(){ Lat = post.Latitude, Lng = post.Longitude })" />
+                                            </Markers>
+                                        </RadzenGoogleMap>
+                                    </div>
+
+                                    <div class="post-icon" style="justify-content: space-between; display: flex;">
+                                        <div>
+                                            @if (LoggedUser.Friends.Where(y => y.Username == post.UserName).FirstOrDefault() is not null)
+                                            {
+                                                <button style="display: flex; align-items: center; color: white; background-color: #E5383B;">
+                                                    <i class="material-icons" style="margin-right: 10px; margin-left: -5px; color: white;" aria-hidden="true">check_circle</i>
+                                                    Friends
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                if (post.UserName != LoggedUser.Username)
+                                                {
+                                                    <button onclick="@(() => {AddFriend(post.UserId);})" style="display: flex; align-items: center; color: white; background-color: #E5383B;">
+                                                        <i class="material-icons" style="margin-right: 10px; margin-left: -5px; color: white;" aria-hidden="true">group_add</i>
+                                                        Add Friend
+                                                    </button>
+                                                }
+                                            }
+                                        </div>
+                                        <div style="display: flex;">
+                                            <button onclick="@(() => {UpdateJoins(post.Id);})" style="display: flex; align-items: center; color: white; background-color: #E5383B;" class="button">
+                                                <i class="material-icons" style="margin-right: 10px; margin-left: -5px; color: white;" aria-hidden="true">add_circle</i>
+                                                Pridruži se
+                                            </button>
+                                            <div class="button" style=" border-radius: 5px; margin-left: 5px; display: flex; align-content: center; align-items: center; color: white; background-color: #E5383B;">
+                                                @($"People joined: {post.NumberOfJoins}")
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                            }
+                        }
+
+                    }
+                </div> <!-- home center wrapper end -->
+            </div> <!-- home center end -->
+        </div>
+    </div>
+</div>
+<!-- home section end -->
+</body>
+</html>
 
 @code{
-    private User? loggedUser { get; set; }
+    public User LoggedUser { get; set; }
+
+    public string Username { get; set; } = string.Empty;
+
+    public DateTime EventTime { get; set; } = DateTime.UtcNow;
+
+    public string PostDescription { get; set; } = string.Empty;
+
+    public double Latitude { get; set; } = 45.339441070869256;
+
+    public double Longitude { get; set; } = 14.427323128634512;
+
+    private int zoom = 14;
+
     private List<User> Users { get; set; } = new List<User>();
-    private double userLatitude = 45.339441070869256;
-    private double userLongitude = 14.427323128634512;
-    private DateTime TimeOfEvent = DateTime.UtcNow;
+
     private List<PostModel> posts { get; set; }
-    public string activityDescription { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
         var email = GetUserEmailFromCookie();
 
-        loggedUser = Context.Users.Where(x => x.Email == email).FirstOrDefault()!;
+        LoggedUser = Context.Users.Where(x => x.Email == email).FirstOrDefault()!;
         Users = Context.Users.ToList();
 
         foreach (var user in Users)
@@ -103,18 +195,42 @@
             {
                 Users.Where(x => x.Id == user.Id).First().Ranks = Rank.Trainer;
             }
-            
+
         }
-        
+
 
         Context.Users.UpdateRange(Users);
         await Context.SaveChangesAsync();
 
         posts = Context.Posts.ToList();
 
-        StateHasChanged();
-
         await base.OnInitializedAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("getLocation", DotNetObjectReference.Create(this));
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    [JSInvokable]
+    public async Task OnLocationReceived(double latitude, double longitude)
+    {
+        // Do something with the latitude and longitude
+        // For example, you can store it in a property or send it to the server.
+        Latitude = latitude;
+        Longitude = longitude;
+        //StateHasChanged(); // Update the UI if needed
+    }
+
+    void OnMapClick(GoogleMapClickEventArgs args)
+    {
+        Latitude = args.Position.Lat;
+        Longitude = args.Position.Lng;
     }
 
     void UpdateJoins(int Id)
@@ -134,21 +250,21 @@
     async Task AddFriend(int userId)
     {
         var user = Context.Users.Where(x => x.Id == userId).First();
-        if(user is not null)
+        if (user is not null)
         {
-            if (loggedUser.Friends.Contains(user))
+            if (LoggedUser.Friends.Contains(user))
             {
                 return;
             }
             else
             {
-                loggedUser.Friends.Add(user);
-                Context.Users.Update(loggedUser);
+                LoggedUser.Friends.Add(user);
+                Context.Users.Update(LoggedUser);
                 await Context.SaveChangesAsync();
             }
-            
+
         }
-        
+
 
     }
 
@@ -156,13 +272,13 @@
     {
         var post = new PostModel
         {
-            EventTime = TimeOfEvent,
-            Latitude = userLatitude,
-            Longitude = userLongitude,
-            UserName = loggedUser.Username,
+            EventTime = EventTime,
+            Latitude = Latitude,
+            Longitude = Longitude,
+            UserName = LoggedUser.Username,
             NumberOfJoins = 0,
-            PostDescription = activityDescription,
-            UserId = loggedUser.Id
+            PostDescription = PostDescription,
+            UserId = LoggedUser.Id
         };
 
         Context.Posts.Add(post);
@@ -203,5 +319,4 @@
             return "Not authenticated";
         }
     }
-
 }
