@@ -1,0 +1,72 @@
+﻿@page "/replytodiscussion/{postId:int}"
+
+@using RiHack_RitehKromanjonci.Data;
+@using RiHack_RitehKromanjonci.Models // Replace with your actual namespace
+@using Microsoft.EntityFrameworkCore
+@inject AppDbContext dbContext
+@inject NavigationManager navigationManager
+
+<h3>Reply to Discussion</h3>
+
+<EditForm Model="newReply" OnValidSubmit="SubmitReply">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="content">Reply Content:</label>
+        <InputText id="content" @bind-Value="newReply.Content" class="form-control" />
+        <ValidationMessage For="() => newReply.Content" />
+    </div>
+
+    <button type="submit" href="./Discussions" class="btn btn-primary">Submit Reply</button>
+</EditForm>
+
+@if (replySubmitted)
+{
+    <p>Reply submitted successfully!</p>
+}
+
+@code {
+    [Parameter]
+    public int postId { get; set; }
+
+    private Reply newReply = new Reply();
+
+    private bool replySubmitted = false;
+
+    private async Task SubmitReply()
+    {
+        try
+        {
+            var post = await dbContext.DiscussionPosts.FindAsync(postId);
+
+            if (post != null)
+            {
+                // Set the parent discussion post using the PostId property
+                newReply.PostId = postId;
+
+                // Add the reply to the DbSet for your Reply entity
+                dbContext.Set<Reply>().Add(newReply);
+
+                await dbContext.SaveChangesAsync(); // Save changes to the database
+
+                // Clear the reply form
+                newReply = new Reply();
+
+                replySubmitted = true;
+            }
+            else
+            {
+                // Handle the case where the discussion post with the given ID doesn't exist
+                replySubmitted = false;
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle any exceptions that may occur during database save
+            // Log the error, display a message to the user, etc.
+            Console.WriteLine($"Error: {ex.Message}");
+            replySubmitted = false;
+        }
+    }
+}

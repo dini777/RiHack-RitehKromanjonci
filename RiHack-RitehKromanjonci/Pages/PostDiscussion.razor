@@ -1,0 +1,34 @@
+﻿@page "/Postdiscussion"
+@using RiHack_RitehKromanjonci.Data;
+@using RiHack_RitehKromanjonci.Models;
+@inject AppDbContext dbContext
+@inject NavigationManager navigationManager
+
+<h3>Post a New Discussion</h3>
+
+<form @onsubmit="SubmitDiscussion">
+    <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" id="title" @bind="newDiscussion.Title" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="content">Content:</label>
+        <textarea id="content" @bind="newDiscussion.Content" class="form-control" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Post</button>
+</form>
+
+@code {
+    private DiscussionPost newDiscussion = new DiscussionPost();
+
+    private async Task SubmitDiscussion()
+    {
+        newDiscussion.Author = "User"; // You can implement user authentication to set the actual author
+        newDiscussion.DatePosted = DateTime.UtcNow;
+
+        dbContext.DiscussionPosts.Add(newDiscussion);
+        await dbContext.SaveChangesAsync();
+
+        navigationManager.NavigateTo("/"); // Redirect to the discussion list
+    }
+}
