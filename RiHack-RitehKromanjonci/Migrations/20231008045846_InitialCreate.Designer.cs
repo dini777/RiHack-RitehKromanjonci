@@ -12,7 +12,7 @@ using RiHack_RitehKromanjonci.Data;
 namespace RiHack_RitehKromanjonci.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231008044036_InitialCreate")]
+    [Migration("20231008045846_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
