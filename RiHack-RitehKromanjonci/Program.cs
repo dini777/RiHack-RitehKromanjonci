@@ -5,10 +5,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RiHack_RitehKromanjonci.Data;
+using RiHack_RitehKromanjonci.Models;
 using System;
 using System.Net.Http;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<TokenProvider>();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -16,6 +19,7 @@ builder.Services.AddServerSideBlazor();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
+builder.Services.AddEndpointsApiExplorer();
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
@@ -29,7 +33,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         {
             options.Cookie.Name = "LoginCookie";
             options.Cookie.HttpOnly = true;
-            options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // editat koliko dugo treba trajati
+            options.ExpireTimeSpan = TimeSpan.FromMinutes(60); // editat koliko dugo treba trajati
             options.LoginPath = "/"; // Redirect to this path if authentication fails
         });
 
@@ -41,6 +45,10 @@ builder.Services.AddScoped(sp =>
     };
     return httpClient;
 });
+
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
+builder.Services.AddHttpClient();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -69,12 +77,17 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseRouting();
+app.UseStaticFiles();
 
+app.UseAuthentication(); // Add authentication middleware
+app.UseAuthorization();
 app.UseStaticFiles();
 app.UseCookiePolicy(cookiePolicyOptions);
 app.UseRouting();
 
 app.MapBlazorHub();
+app.MapRazorPages();
 app.MapFallbackToPage("/_Host");
 
 app.Run();

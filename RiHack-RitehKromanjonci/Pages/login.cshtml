@@ -1,23 +1,32 @@
 ﻿@page
-@model RiHack_RitehKromanjonci.Pages.IndexModel
+@model RiHack_RitehKromanjonci.Pages.LoginModel
+@{
+    ViewBag.Title = "Prijava";
+}
+
 <link rel="stylesheet" href="~/css/login-novi.css" />
 <div class="login-box">
     <h2>Login</h2>
-    <form>
-        <div class="user-box">
-            <input type="text" name="" required="">
+    <form action="/login" method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="All"></div>
+
+        <div class="user-box form-group">
+            <input required type="text" name="Email" placeholder="E-mail" value="@Model.Email" />
             <label>E-Mail</label>
         </div>
-        <div class="user-box">
-            <input type="password" name="" required="">
+        <div class="user-box form-group">
+            <input required type="password" name="Password" value="@Model.Password">
             <label>Lozinka</label>
         </div>
-        <a href="#">
+        <button class="submit-button" type="submit">
             <span></span>
             <span></span>
             <span></span>
             <span></span>
             Potvrdi
-        </a>
+        </button>
+        <br />
+        <a href="/Register">Niste još uvijek registrirani? Klikni ovdje</a>
     </form>
 </div>
