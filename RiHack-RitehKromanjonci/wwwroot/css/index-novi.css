@@ -312,13 +312,13 @@ header {
         align-items: center;
         margin-bottom: 15px;
         font-weight: 600;
-        color: #4575b3;
+        color: #00ADB5;
     }
 
 .darkTheme {
     width: 40px;
     height: 24px;
-    background: #4575b3;
+    background: 00ADB5;
     margin-right: 12px;
     border-radius: 50px;
     position: relative;
@@ -363,7 +363,7 @@ header {
 }
 
 .home-center .mini-headign {
-    color: #9ef01a;
+    color: ##0ADB5;
     margin-bottom: 10px;
 }
 
@@ -515,7 +515,7 @@ header {
 
     .fb-post1-header .active {
         color: var(--black);
-        border-bottom: 3px solid #9ef01a;
+        border-bottom: 3px solid #0ADB5;
     }
 
 .fb-p1-main {
