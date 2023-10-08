@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\css\NewFolder\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

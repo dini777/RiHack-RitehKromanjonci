@@ -37,6 +37,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
             options.LoginPath = "/"; // Redirect to this path if authentication fails
         });
 
+
+
 builder.Services.AddScoped(sp =>
 {
     var httpClient = new HttpClient

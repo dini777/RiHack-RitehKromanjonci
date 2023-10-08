@@ -22,6 +22,34 @@ namespace RiHack_RitehKromanjonci.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("RiHack_RitehKromanjonci.Models.DiscussionPost", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DatePosted")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DiscussionPosts");
+                });
+
             modelBuilder.Entity("RiHack_RitehKromanjonci.Models.PostModel", b =>
                 {
                     b.Property<int>("Id")

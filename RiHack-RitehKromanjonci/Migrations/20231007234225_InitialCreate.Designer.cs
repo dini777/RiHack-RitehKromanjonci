@@ -12,7 +12,7 @@ using RiHack_RitehKromanjonci.Data;
 namespace RiHack_RitehKromanjonci.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231007204648_InitialCreate")]
+    [Migration("20231007234225_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -24,6 +24,34 @@ namespace RiHack_RitehKromanjonci.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("RiHack_RitehKromanjonci.Models.DiscussionPost", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DatePosted")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DiscussionPosts");
+                });
 
             modelBuilder.Entity("RiHack_RitehKromanjonci.Models.PostModel", b =>
                 {
