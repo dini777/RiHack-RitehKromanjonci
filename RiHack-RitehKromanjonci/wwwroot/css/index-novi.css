@@ -18,11 +18,19 @@
     --shadow: #76767663;
     --border: #cfcfcf;
 }
-
+.submit-button{
+    margin-top: 20px;
+}
 body {
     background: var(--background);
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: #9ef01a;
+}
+.tekst {
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #00ADB5;
 }
 
 button:focus,
@@ -59,7 +67,6 @@ header {
     border-radius: 20px;
     box-shadow: 0 2px 5px 0 var(--shadow);
 }
-
 .header-wrapper {
     display: flex;
     width: 100%;
@@ -227,7 +234,7 @@ header {
 
 .mini-headign {
     text-transform: uppercase;
-    color: var(--gray);
+    color: #00ADB5;
     margin-bottom: 15px;
 }
 
@@ -276,7 +283,7 @@ header {
     }
 
     .see-more-btn:hover {
-        background: #9ef01a;
+        background: #00ADB5;
         box-shadow: 0 5px 6px 0 #76767663;
         cursor: pointer;
     }
@@ -293,7 +300,7 @@ header {
     }
 
         .explore a:hover {
-            color: #1877f2;
+            color: #00ADB5;
         }
 
         .explore a i {
@@ -510,7 +517,7 @@ header {
         }
 
             .fb-post1-header ul li:hover {
-                color: #9ef01a;
+                color: #00ADB5;
             }
 
     .fb-post1-header .active {
@@ -723,7 +730,7 @@ header {
 }
 
     .event button:hover {
-        background: #9ef01a;
+        background: #00ADB5;
         cursor: pointer;
     }
 
