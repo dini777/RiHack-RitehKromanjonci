@@ -1,0 +1,22 @@
+﻿<style >
+.options-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.options-buttons button {
+    padding: 10px 20px;
+    background-color: #00CC66;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    .options-buttons button:hover {
+        background-color: #0056b3;
+    }
+
+</style >
