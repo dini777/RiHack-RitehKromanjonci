@@ -38,10 +38,23 @@
                     <i class="fas fa-search"></i>
                 </div>
                 <div class="iconBox2">
-                    <button><a href="./Discussions"><img src="images/icons8-chat-50.png" alt="chat"></a></button>
-                    <button><a href="./logout"><img src="images/icons8-logout-30.png" alt="logout"></a></button>
-                    <button><a href="./user_profile"><label><img src="images/user.jpg" alt="user"></label></a></button>
-            
+                    <AuthorizeView Roles="User">
+                        <Authorized>
+                            <button><a href="./Discussions"><img src="images/icons8-chat-50.png" alt="chat"></a></button>
+                            <button><a href="./logout"><img src="images/icons8-logout-30.png" alt="logout"></a></button>
+                            <button><a href="./user_profile"><label><img src="images/user.jpg" alt="user"></label></a></button>
+                        </Authorized>
+
+                        <NotAuthorized>
+                            <div style="margin-left: 20px;">
+                                <NavLink class="nav-link" href="./login" style="color: #00AD85;">Prijava</NavLink>
+                            </div>
+
+                            <div style="margin-left: 20px;">
+                                <NavLink class="nav-link" href="./register" style="color: #00AD85;">Registracija</NavLink>
+                            </div>
+                        </NotAuthorized>
+                    </AuthorizeView>
                 </div>
             </div>
         </div>
