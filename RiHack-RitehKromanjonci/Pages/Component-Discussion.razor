@@ -1,4 +1,10 @@
-﻿@page "/com"
+﻿@page "/Discussions"
+@using RiHack_RitehKromanjonci.Data;
+@using RiHack_RitehKromanjonci.Models;
+@inject AppDbContext dbContext
+@inject NavigationManager navigationManager
+@inject IHttpContextAccessor HttpContextAccessor
+@using System.Security.Claims;
 
 <!DOCTYPE html>
 <html lang="en">
@@ -42,7 +48,9 @@
 
 <!-- header section end -->
 <!-- home section start -->
-
+    <div class="text-center">
+        <button class="btn btn-primary" @onclick="GoToPostDiscussion">Create New Discussion</button>
+    </div>
 
 <div class="home">
     <div class="container">
@@ -55,74 +63,84 @@
 
                     <div class="createPost">
 
-                        <h3 class="mini-headign">Create Post</h3>
-                        <div class="post-text">
-                            <img src="images/user.jpg" alt="user">
-                            <input type="text-area" placeholder="What's on your mind, zahidul">
-                        </div>
+                            @foreach (var post in discussionPosts)
+                            {
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@post.Title</h5>
+                                        <p class="card-text">@post.Content</p>
+                                        <p class="card-text">Posted by: @post.Author | Date: @post.DatePosted.ToString("yyyy-MM-dd")</p>
 
-                        <div class="post-icon">
-                            <a href="#" style="background: #ffebed;">
-                            <i style="background: #ff4154;" class="fa-solid fa-camera"></i>
-                            Datum</a>
-                            <a href="#" style="background: #d7ffef;">
-                            <i style="background: #00d181;" class="fa-solid fa-location-dot"></i>
-                            Lokacija</a>
+                                        <!-- Toggle button for replies -->
+                                        <button class="btn btn-primary" @onclick="() => ToggleReplies(post)">View Replies</button>
 
-                        </div>
+                                        <!-- Replies section (initially hidden) -->
+                                        @if (post.ShowReplies)
+                                        {
+                                            <div class="replies-section">
+                                                @foreach (var reply in post.Replies)
+                                                {
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <p class="card-text">@reply.Content</p>
+                                                            <p class="card-text">Posted by: @GetUserEmailFromCookie()</p>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+
+                                        <a href="/replytodiscussion/@post.Id" class="btn btn-primary">Reply</a>
+                                    </div>
+                                </div>
+                            }
                     </div>
 
                    
-                    <div class="fb-post1">
-                        <div class="fb-post1-container">
-                            <div class="fb-post1-header">
-                                <ul>
-                                    <li class="active">Nedavno</li>
-                                </ul>
-                            </div>
-                            <div class="fb-p1-main">
-                                <div class="post-title">
-                                    <img src="images/user2.jpg" alt="user picture">
-                                    <ul>
-                                        <li><h3>Arham Kabir <span> . 2 hours ago</span></h3></li>
-                                        <li><span>02 march at 12:55 PM</span></li>
-                                    </ul>
-                                    <p>Hello Everyone Thanks for Watching Please SUBSCRIBE My Channel - Like Comments and Share
-                                        <a href="https://www.youtube.com/channel/UCHhGX-DD7A8jq7J_NPGN6gA">https://www.youtube.com/channel/UCHhGX-DD7A8jq7J_NPGN6gA</a>
-                                    </p>
-                                </div>
-
-                                <div class="post-images">
-                                    <div class="post-images1">
-                                        <img src="images/pp.jpg" alt="post images 01">
-                                        <img src="images/pp2.jpg" alt="post images 02">
-                                        <img src="images/pp3.jpg" alt="post images 03">
-                                    </div>
-                                    <div class="post-images2">
-                                        <img src="images/pp4.jpg" alt="post images 04">
-                                    </div>
-                                </div>
-
-                                <div class="like-comment">
-                                    <ul>
-                                        <li>
-                                            <img src="images/love.png" alt="love">
-                                            <img src="images/like.png" alt="like">
-                                            <span>22k like</span>
-                                        </li>
-                                        <li><i class="fa-regular fa-comment-dots"></i> <span>555 comments</span></li>
-                                        <li><i class="fa-solid fa-share-from-square"></i> <span>254 share</span></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
 
                 </div> <!-- home center wrapper end -->
             </div> <!-- home center end -->
         </div>
     </div>
 </div>
+
+
 <!-- home section end -->
 </body>
 </html>
+
+@code {
+    private List<DiscussionPost> discussionPosts;
+
+    public string GetUserEmailFromCookie()
+    {
+        var principal = HttpContextAccessor.HttpContext.User;
+        if (principal.Identity.IsAuthenticated)
+        {
+            var emailClaim = principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+            var email = emailClaim?.Value ?? "Not Found";
+            return email;
+        }
+        else
+        {
+            return "Not authenticated";
+        }
+    }
+
+    private void GoToPostDiscussion()
+    {
+        // Navigate to the PostDiscussion.razor component
+        navigationManager.NavigateTo("/PostDiscussion");
+    }
+
+    private void ToggleReplies(DiscussionPost post)
+    {
+        post.ShowReplies = !post.ShowReplies;
+    }
+
+    protected override void OnInitialized()
+    {
+        discussionPosts = dbContext.DiscussionPosts.ToList();
+    }
+}
