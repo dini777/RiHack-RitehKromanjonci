@@ -6,11 +6,11 @@
 @inject IHttpContextAccessor HttpContextAccessor
 @using System.Security.Claims;
 
-<h3>Post a New Discussion</h3>
+<h3>Započni raspravu</h3>
 
 <form @onsubmit="SubmitDiscussion">
     <div class="form-group">
-        <label for="title">Title:</label>
+        <label for="title">Naslov:</label>
         <input type="text" id="title" @bind="newDiscussion.Title" class="form-control" required />
     </div>
     <div class="form-group">
