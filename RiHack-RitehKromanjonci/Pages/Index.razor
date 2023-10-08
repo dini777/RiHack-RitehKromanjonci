@@ -24,7 +24,7 @@
 
 
 
-@if (posts is not null)
+@if (posts is not null && loggedUser is not null)
 {
     foreach (var post in posts)
     {
@@ -72,6 +72,7 @@
 
 @code{
     private User? loggedUser { get; set; }
+    private List<User> Users { get; set; } = new List<User>();
     private double userLatitude = 45.339441070869256;
     private double userLongitude = 14.427323128634512;
     private DateTime TimeOfEvent = DateTime.UtcNow;
@@ -83,6 +84,31 @@
         var email = GetUserEmailFromCookie();
 
         loggedUser = Context.Users.Where(x => x.Email == email).FirstOrDefault()!;
+        Users = Context.Users.ToList();
+
+        foreach (var user in Users)
+        {
+            var points = Context.Posts.Where(x => x.UserId == user.Id).Select(x => x.NumberOfJoins).Sum();
+
+            Users.Where(x => x.Id == user.Id).First().Points = points;
+            if (points < 250)
+            {
+                Users.Where(x => x.Id == user.Id).First().Ranks = Rank.Beginner;
+            }
+            else if (points >= 250 && points < 750)
+            {
+                Users.Where(x => x.Id == user.Id).First().Ranks = Rank.Intermediate;
+            }
+            else
+            {
+                Users.Where(x => x.Id == user.Id).First().Ranks = Rank.Trainer;
+            }
+            
+        }
+        
+
+        Context.Users.UpdateRange(Users);
+        await Context.SaveChangesAsync();
 
         posts = Context.Posts.ToList();
 

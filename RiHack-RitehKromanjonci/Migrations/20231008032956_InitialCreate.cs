@@ -21,7 +21,8 @@ namespace RiHack_RitehKromanjonci.Migrations
                     Title = table.Column<string>(type: "text", nullable: false),
                     Content = table.Column<string>(type: "text", nullable: false),
                     Author = table.Column<string>(type: "text", nullable: false),
-                    DatePosted = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    DatePosted = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    ShowReplies = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -37,6 +38,7 @@ namespace RiHack_RitehKromanjonci.Migrations
                     Email = table.Column<string>(type: "text", nullable: false),
                     Username = table.Column<string>(type: "text", nullable: false),
                     Password = table.Column<string>(type: "text", nullable: false),
+                    OIB = table.Column<string>(type: "text", nullable: false),
                     Points = table.Column<int>(type: "integer", nullable: false),
                     Ranks = table.Column<int>(type: "integer", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: true)

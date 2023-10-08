@@ -32,6 +32,12 @@ namespace RiHack_RitehKromanjonci.Pages
         [Required(ErrorMessage = "Potrebno je upisati username.")]
         public string Username { get; set; }
 
+        [BindProperty]
+        [Required(ErrorMessage = "Potrebno je upisati OIB.")]
+        public string OIB { get; set; }
+
+        public string info = string.Empty;
+
         public async Task<ActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -44,8 +50,13 @@ namespace RiHack_RitehKromanjonci.Pages
                 Email = Email,
                 Password = Password,
                 Username = Username,
-
+                OIB = OIB
             };
+
+            info = "Provjeravanje validnosti OIB-a";
+            await CheckOIBValidity();
+            info = string.Empty;
+
 
             _context.Users.Add(user);
 
@@ -55,5 +66,11 @@ namespace RiHack_RitehKromanjonci.Pages
             // redirectati korisnika na drugi page gdje moze upisati taj access code
             return Redirect("./login");
         }
+        async Task CheckOIBValidity()
+        {
+            //feature za dodati :)
+            await Task.Delay(15000);
+        }
     }
+    
 }

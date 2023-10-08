@@ -12,7 +12,7 @@ using RiHack_RitehKromanjonci.Data;
 namespace RiHack_RitehKromanjonci.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231008020259_InitialCreate")]
+    [Migration("20231008032956_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -43,6 +43,9 @@ namespace RiHack_RitehKromanjonci.Migrations
 
                     b.Property<DateTime>("DatePosted")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool>("ShowReplies")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -132,6 +135,10 @@ namespace RiHack_RitehKromanjonci.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("OIB")
                         .IsRequired()
                         .HasColumnType("text");
 
