@@ -1,93 +1,445 @@
-﻿/* registration.css */
-.form-group h3 {
-    margin-bottom: 20px;
-    font-family: Arial, sans-serif; /* Specify your preferred font-family */
-    font-weight: bold; /* Make the text bold */
-    font-size: 24px; /* Set the font size to your preference */
-    color: #333; /* Set the text color */
-    /* Add any other styles you want */
+﻿html {
+    height: 100%;
 }
 
-.register-button {
-    display: inline-block;
-    outline: 0;
-    cursor: pointer;
+.submit-button {
+    background-color: #46670C;
+    border-radius: 5px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: linear-gradient(#9ef01a, #80b918);
+}
+
+.login-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    padding: 40px;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,.5);
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px rgba(0,0,0,.6);
+    border-radius: 10px;
+}
+
+    .login-box h2 {
+        margin: 0 0 30px;
+        padding: 0;
+        color: #fff;
+        text-align: center;
+    }
+
+    .login-box .user-box {
+        position: relative;
+    }
+
+        .login-box .user-box input {
+            width: 100%;
+            padding: 10px 0;
+            font-size: 16px;
+            color: #fff;
+            margin-bottom: 30px;
+            border: none;
+            border-bottom: 1px solid #fff;
+            outline: none;
+            background: transparent;
+        }
+
+        .login-box .user-box label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 10px 0;
+            font-size: 16px;
+            color: #fff;
+            pointer-events: none;
+            transition: .5s;
+        }
+
+        .login-box .user-box input:focus ~ label,
+        .login-box .user-box input:valid ~ label {
+            top: -20px;
+            left: 0;
+            color: #ccff33;
+            font-size: 12px;
+        }
+
+    .login-box form .submit-button {
+        position: relative;
+        display: inline-block;
+        padding: 10px 20px;
+        color: #ccff33;
+        font-size: 16px;
+        text-decoration: none;
+        text-transform: uppercase;
+        overflow: hidden;
+        transition: .5s;
+        margin-top: 40px;
+        letter-spacing: 4px
+    }
+
+    .login-box .submit-button:hover {
+        background: #ccff33;
+        color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 5px #ccff33, 0 0 25px #ccff33, 0 0 50px #ccff33, 0 0 100px #ccff33;
+    }
+
+    .login-box .submit-button span {
+        position: absolute;
+        display: block;
+    }
+
+        .login-box .submit-button span:nth-child(1) {
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #affc41);
+            animation: btn-anim1 1s linear infinite;
+        }
+
+@keyframes btn-anim1 {
+    0% {
+        left: -100%;
+    }
+
+    50%,100% {
+        left: 100%;
+    }
+}
+
+.login-box .submit-button span:nth-child(2) {
+    top: -100%;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent, #abff4f);
+    animation: btn-anim2 1s linear infinite;
+    animation-delay: .25s
+}
+
+@keyframes btn-anim2 {
+    0% {
+        top: -100%;
+    }
+
+    50%,100% {
+        top: 100%;
+    }
+}
+
+.login-box .submit-button span:nth-child(3) {
+    bottom: 0;
+    right: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(270deg, transparent, #2b9348);
+    animation: btn-anim3 1s linear infinite;
+    animation-delay: .5s
+}
+
+@keyframes btn-anim3 {
+    0% {
+        right: -100%;
+    }
+
+    50%,100% {
+        right: 100%;
+    }
+}
+
+.login-box .submit-button span:nth-child(4) {
+    bottom: -100%;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(360deg, transparent, #ccff33);
+    animation: btn-anim4 1s linear infinite;
+    animation-delay: .75s
+}
+
+@keyframes btn-anim4 {
+    0% {
+        bottom: -100%;
+    }
+
+    50%,100% {
+        bottom: 100%;
+    }
+}
+
+header {
+    width: 100%;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-container {
+    width: 95%;
+    background: var(--white);
+    height: 100px;
+    overflow: hidden;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px 0 var(--shadow);
+}
+
+.header-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    padding: 0 8px;
+    justify-content: space-between;
+}
+
+.logoBox {
+    width: 7%;
+}
+
+    .logoBox img {
+        width: 60px;
+    }
+
+.searchBox {
+    width: 50%;
+    position: relative;
+}
+
+.iconBox1 {
+    width: 25%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 25px;
+    border-right: 2px solid var(--border);
+}
+
+.iconBox2 {
+    width: 25%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 25px;
+    position: relative;
+}
+
+.searchBox input {
+    padding: 15px 45px 15px 15px;
+    border-radius: 50px;
+    width: 100%;
+    background: var(--foreground);
     border: none;
-    padding: 0 45px;
-    height: 35px;
-    line-height: 35px;
-    border-radius: 4px;
-    background-color: #00CC66;
-    color: white;
-    font-weight: 400;
+    box-shadow: 0 2px 5px 0 var(--shadow);
+    color: var(--black);
+}
+
+.searchBox i {
+    position: absolute;
+    right: 20px;
+    top: 19px;
+    color: var(--black);
+    cursor: pointer;
+    transition: .4s;
+}
+
+    .searchBox i:hover {
+        color: #1877f2;
+    }
+
+.iconBox1 i,
+.iconBox2 i {
+    font-size: 20px;
+    background: transparent;
+    padding: 10px;
+    border-radius: 10px;
+    color: #769bcb;
+    transition: .4s;
+}
+
+    .iconBox1 i:hover,
+    .iconBox2 i:hover {
+        background: #2b9348;
+        color: #c7f9cc;
+        cursor: pointer;
+    }
+
+.iconBox2 label {
+    width: 45px;
+    height: 45px;
+    overflow: hidden;
+    border-radius: 50px;
+}
+
+    .iconBox2 label img {
+        width: 100%;
+    }
+
+.iconBox2 .fa-caret-down {
+    position: absolute;
+    right: 0;
     font-size: 16px;
-    box-shadow: 0 4px 14px 0 rgb(0 118 255 / 39%);
-    transition: background 0.2s ease,color 0.2s ease,box-shadow 0.2s ease;
-    transition: transform 0.1s;
-    margin-top: 20px;
+    top: 7px;
 }
 
-    .register-button:hover {
-        background: #ABE098;
-        box-shadow: 0 6px 20px rgb(0 118 255 / 23%);
-        animation: shake 2s;
+    .iconBox2 .fa-caret-down:hover {
+        background: transparent;
     }
 
-@keyframes shake {
-    0%, 100% {
-        transform: translateX(0);
-    }
-
-    10%, 30%, 50%, 70%, 90% {
-        transform: translateX(-6px);
-    }
-
-    20%, 40%, 60%, 80% {
-        transform: translateX(6px);
-    }
+header {
+    width: 100%;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* registration.css */
-.form-group {
-    max-width: 300px; /* Adjust the width as needed */
-    margin: 0 auto; /* Center the form elements horizontally */
-    text-align: center;
-    margin-bottom: 20px;
+.header-container {
+    width: 95%;
+    background: var(--white);
+    height: 100px;
+    overflow: hidden;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px 0 var(--shadow);
 }
 
-    /* Optional: Reduce label width if needed */
-    .form-group label {
-        width: 80px; /* Adjust the label width as needed */
+.header-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    padding: 0 8px;
+    justify-content: space-between;
+}
+
+.logoBox {
+    width: 7%;
+}
+
+    .logoBox img {
+        width: 60px;
     }
 
-    /* Optional: Reduce input width if needed */
-    .form-group .form-control {
-        width: 100%; /* Make the input take up the remaining width */
+.searchBox {
+    width: 50%;
+    position: relative;
+}
+
+.iconBox1 {
+    width: 25%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 25px;
+    border-right: 2px solid var(--border);
+}
+
+.iconBox2 {
+    width: 25%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 25px;
+    position: relative;
+}
+
+.searchBox input {
+    padding: 15px 45px 15px 15px;
+    border-radius: 50px;
+    width: 100%;
+    background: var(--foreground);
+    border: none;
+    box-shadow: 0 2px 5px 0 var(--shadow);
+    color: var(--black);
+}
+
+.searchBox i {
+    position: absolute;
+    right: 20px;
+    top: 19px;
+    color: var(--black);
+    cursor: pointer;
+    transition: .4s;
+}
+
+    .searchBox i:hover {
+        color: #1877f2;
     }
 
-    /* registration.css */
-    .form-group.email {
-        margin-top: 20px; /* Adjust the margin as needed */
+.iconBox1 i,
+.iconBox2 i {
+    font-size: 20px;
+    background: transparent;
+    padding: 10px;
+    border-radius: 2px;
+    color: #769bcb;
+    transition: .4s;
+}
+
+    .iconBox1 i:hover,
+    .iconBox2 i:hover {
+        background: #2b9348;
+        color: #c7f9cc;
+        cursor: pointer;
     }
 
-    /* Placeholder fade-out animation */
-    .form-group .form-control::placeholder {
-        color: #888;
-        opacity: 1;
-        transition: color 1s ease-in-out, opacity 1s ease-in-out;
+.iconBox2 label {
+    width: 45px;
+    height: 45px;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+    .iconBox2 label img {
+        width: 50px;
     }
 
-    .form-group .form-control:focus::placeholder {
-        color: transparent;
-        opacity: 0;
-        animation: none; /* Disable the animation when focused */
+.iconBox2 .fa-caret-down {
+    position: absolute;
+    right: 0;
+    font-size: 16px;
+    top: 7px;
+}
+
+    .iconBox2 .fa-caret-down:hover {
+        background: transparent;
     }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+}
 
+:root {
+    --background: #d1deec;
+    --foreground: #f1f3f5;
+    --white: #fff;
+    --black: #000;
+    --gray: #6e6e6e;
+    --shadow: #76767663;
+    --border: #cfcfcf;
+}
 
+button:focus,
+input:focus {
+    border: none;
+    outline: none;
+}
 
+h1, h2, h3, h4, h5, h6, b {
+    color: var(--black);
+}
 
-
-
-
-
+a:focus, a:hover {
+    text-decoration: none;
+    color: inherit;
+}
