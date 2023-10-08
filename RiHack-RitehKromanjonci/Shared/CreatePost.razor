@@ -52,9 +52,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var email = "";
+        var email = GetUserEmailFromCookie();
 
-        loggedUser = Context.Users.FirstOrDefault()!;
+        loggedUser = Context.Users.Where(x => x.Email == email).FirstOrDefault()!;
 
         await base.OnInitializedAsync();
     }
@@ -105,6 +105,39 @@
         navManager.NavigateTo("/");
 
         
+    }
+
+    private Dictionary<string, string> ParseCookieData(string cookieValue)
+    {
+        var data = new Dictionary<string, string>();
+        var keyValuePairs = cookieValue.Split('&');
+        foreach (var keyValuePair in keyValuePairs)
+        {
+            var parts = keyValuePair.Split('=');
+            if (parts.Length == 2)
+            {
+                var key = parts[0];
+                var value = parts[1];
+                data[key] = value;
+            }
+        }
+        return data;
+    }
+
+    // Get the user's email from the cookie
+    public string GetUserEmailFromCookie()
+    {
+        var principal = HttpContextAccessor.HttpContext.User;
+        if (principal.Identity.IsAuthenticated)
+        {
+            var emailClaim = principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+            var email = emailClaim?.Value ?? "Not Found";
+            return email;
+        }
+        else
+        {
+            return "Not authenticated";
+        }
     }
 
 }

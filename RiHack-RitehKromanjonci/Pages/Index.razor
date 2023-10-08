@@ -1,8 +1,10 @@
 ﻿@page "/"
 @using RiHack_RitehKromanjonci.Data;
 @using RiHack_RitehKromanjonci.Models;
+@using System.Security.Claims;
 
 @inject AppDbContext Context
+
 
 <PageTitle>Sportleaf</PageTitle>
 
@@ -20,7 +22,7 @@
                 Joins="@post.NumberOfJoins" />
 
         <div style="width: 60%; display: flex; align-content:end; justify-content: space-between; margin: auto;">
-            <button onclick="@(() => {UpdateJoins(post.UserName);})" style="display: flex; align-items: center; background-color: #E5383B;" class="button">
+            <button onclick="@(() => {UpdateJoins(post.Id);})" style="display: flex; align-items: center; background-color: #E5383B;" class="button">
                 <i class="material-icons" style="margin-right: 10px; margin-left: -5px; color: white;" aria-hidden="true">add_circle</i>
                 Pridruži se
             </button>
@@ -37,7 +39,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-
+        
         posts = Context.Posts.ToList();
 
         StateHasChanged();
@@ -45,9 +47,9 @@
         await base.OnInitializedAsync();
     }
 
-    void UpdateJoins(string Username)
+    void UpdateJoins(int Id)
     {
-        var post = Context.Posts.Where(x => x.UserName == Username).FirstOrDefault();
+        var post = Context.Posts.Where(x => x.Id == Id).FirstOrDefault();
 
         if (post is not null)
         {
@@ -57,7 +59,6 @@
             StateHasChanged();
         }
 
-        
     }
 
 }
