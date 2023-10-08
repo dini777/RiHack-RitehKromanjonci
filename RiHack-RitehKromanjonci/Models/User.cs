@@ -11,6 +11,8 @@ public class User
     public string Email { get; set; } = string.Empty;
     public string Username { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
+    public int Points { get; set; } = 0;
+    public Rank Ranks { get; set; } = Rank.Empty;
     public List<PostModel> Posts { get; set; } = new List<PostModel>();
     public List<User> Friends { get; set; }
 }

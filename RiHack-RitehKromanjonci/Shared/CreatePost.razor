@@ -9,55 +9,53 @@
 
 <link href="./css/createpost.css" rel="stylesheet" />
 
-@if (loggedUser is not null)
-{
+
     <div class="post_container">
         <div class= "flex-container">
             <div class="box">
-                <p>@loggedUser.Username</p>
+                <p>@Username</p>
             </div>
             <div class="box">
-                <InputDate @bind-Value="TimeOfEvent" />
+                <InputDate @bind-Value="EventTime" />
             </div>
         </div>
         
     </div>
     <div class="input-container">
-        <input type="text" class="my-input" placeholder="Opišite aktivnost..." @bind="activityDescription" />
+        <input type="text" class="my-input" placeholder="Opišite aktivnost..." @bind="PostDescription" />
     </div>
     <div class="map">
         <RadzenGoogleMap Style="height: 600px;"
                          Zoom="@zoom"
                          MapClick="@OnMapClick"
-                         Center="@(new GoogleMapPosition(){ Lat = userLatitude, Lng = userLongitude })">
+                        Center="@(new GoogleMapPosition(){ Lat = Latitude, Lng = Longitude })">
             <Markers>
-                <RadzenGoogleMapMarker Position="@(new GoogleMapPosition(){ Lat = userLatitude, Lng = userLongitude })" />
+                <RadzenGoogleMapMarker Position="@(new GoogleMapPosition(){ Lat = Latitude, Lng = Longitude })" />
             </Markers>
         </RadzenGoogleMap>
-        <button onclick="@(async () => {await PublicateThePost();})" style="width: 100%; align-content: center;" class="button">Objavi</button>
+        
     </div>
     
 }
 
 
 @code {
-    private User? loggedUser { get; set; }
+    [Parameter]
+    public string Username { get; set; }
+
+    [Parameter]
+    public DateTime EventTime { get; set; }
+
+    [Parameter]
+    public string PostDescription { get; set; }
+
+    [Parameter]
+    public double Latitude { get; set; }
+
+    [Parameter]
+    public double Longitude { get; set; }
+
     private int zoom = 14;
-    private bool showCurrentLocationMarker;
-    private string clickedPosition = "";
-    private string activityDescription = "";
-    private double userLatitude = 45.339441070869256;
-    private double userLongitude = 14.427323128634512;
-    private DateTime TimeOfEvent = DateTime.UtcNow;
-
-    protected override async Task OnInitializedAsync()
-    {
-        var email = "";
-
-        loggedUser = Context.Users.FirstOrDefault()!;
-
-        await base.OnInitializedAsync();
-    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -74,37 +72,14 @@
     {
         // Do something with the latitude and longitude
         // For example, you can store it in a property or send it to the server.
-        userLatitude = latitude;
-        userLongitude = longitude;
+        Latitude = latitude;
+        Longitude = longitude;
         StateHasChanged(); // Update the UI if needed
     }
 
     void OnMapClick(GoogleMapClickEventArgs args)
     {
-        userLatitude = args.Position.Lat;
-        userLongitude = args.Position.Lng;
+        Latitude = args.Position.Lat;
+        Longitude = args.Position.Lng;
     }
-
-    async Task PublicateThePost()
-    {
-        var post = new PostModel
-        {
-            EventTime = TimeOfEvent,
-            Latitude = userLatitude,
-            Longitude = userLongitude,
-            UserName = loggedUser.Username,
-            NumberOfJoins = 0,
-            PostDescription = activityDescription,
-            UserId = loggedUser.Id
-        };
-
-        Context.Posts.Add(post);
-        await Context.SaveChangesAsync();
-
-        StateHasChanged();
-        navManager.NavigateTo("/");
-
-        
-    }
-
 }

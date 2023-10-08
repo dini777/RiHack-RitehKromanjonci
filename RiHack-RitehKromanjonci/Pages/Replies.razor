@@ -1,0 +1,47 @@
+﻿@page "/replies/{postId:int}"
+@using RiHack_RitehKromanjonci.Data;
+@using RiHack_RitehKromanjonci.Models;
+@inject AppDbContext dbContext
+@inject NavigationManager navigationManager
+
+<h3>Replies</h3>
+
+@foreach (var reply in replies)
+{
+    <div class="card">
+        <div class="card-body">
+            <p class="card-text">@reply.Content</p>
+            <p class="card-text">Posted by: @reply.Author | Date: @reply.DatePosted.ToString("yyyy-MM-dd")</p>
+        </div>
+    </div>
+}
+
+@code {
+    private List<Reply> replies;
+    private int postId;
+
+    [Parameter]
+    public int PostId
+    {
+        get => postId;
+        set
+        {
+            postId = value;
+            LoadReplies();
+        }
+    }
+
+    private void LoadReplies()
+    {
+        var post = dbContext.DiscussionPosts.Find(postId);
+        if (post != null)
+        {
+            replies = post.Replies;
+        }
+        else
+        {
+            // Handle post not found error
+            replies = new List<Reply>();
+        }
+    }
+}

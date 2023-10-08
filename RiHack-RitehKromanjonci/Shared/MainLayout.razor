@@ -2,6 +2,7 @@
 @using RiHack_RitehKromanjonci.Models;
 
 @inject AppDbContext Context
+@inject NavigationManager navManager
 
 @inherits LayoutComponentBase
 <link href="./css/navbarbutton.css" rel="stylesheet" />
@@ -23,39 +24,41 @@
             <div class="top-row px-4" style="background-color: #57cc99;">
                 @*DESNA STRANA*@
                 @*AKO NIJE ULOGIRAN POKAZI LOGIN, AKO JE ULOGIRAN POKAZI PROFIL, MESSAGES ITD..*@
-                @if (showLogin)
-                {
-                    <div style="margin-left: 20px;">
-                        <NavLink onclick="@(async () => {await Task.Delay(3000); showLogin = false; StateHasChanged();})" class="nav-link button" href="Login" style="color: white;">Prijava</NavLink>
-                    </div>
-                }
-                else
-                {
-                    <div class="nav-item">
-                        <NavLink class="nav-link" href="user_profile" Match="NavLinkMatch.All">
-                            <i class="material-icons" style="margin-right: 10px; margin-left: -5px; color: white;" aria-hidden="true">account_circle</i>
-                        </NavLink>
-                    </div>
+                <AuthorizeView Roles="User">
+                    <Authorized>
+                        <div class="nav-item">
+                            <NavLink class="nav-link" href="user_profile" Match="NavLinkMatch.All">
+                                <i class="material-icons" style="margin-right: 10px; margin-left: -5px; color: white;" aria-hidden="true">account_circle</i>
+                            </NavLink>
+                        </div>
 
-                    <div class="nav-item">
-                        <NavLink class="nav-link" href="forum" Match="NavLinkMatch.All">
-                            <i class="material-icons" style="margin-right: 10px; margin-left: -5px; color: white;" aria-hidden="true">chat</i>
-                        </NavLink>
-                    </div>
+                        <div class="nav-item">
+                            <NavLink class="nav-link" href="./Discussions" Match="NavLinkMatch.All">
+                                <i class="material-icons" style="margin-right: 10px; margin-left: -5px; color: white;" aria-hidden="true">chat</i>
+                            </NavLink>
+                        </div>
 
-                    <div class="nav-item">
-                        <NavLink class="nav-link" href="options" Match="NavLinkMatch.All">
-                            <i class="material-icons" style="margin-right: 10px; margin-left: -5px; color: white;" aria-hidden="true">settings</i>
-                        </NavLink>
-                    </div>
+                        <div class="nav-item">
+                            <NavLink class="nav-link" href="options" Match="NavLinkMatch.All">
+                                <i class="material-icons" style="margin-right: 10px; margin-left: -5px; color: white;" aria-hidden="true">settings</i>
+                            </NavLink>
+                        </div>
 
-                    <div style="margin-left: 20px;">
-                        <button class="button" onclick="@(() => {showLogin = true; StateHasChanged();})">Odjava</button>
-                    </div>
-                }
-                
+                        <div style="margin-left: 20px;">
+                            <NavLink class="nav-link" href="./logout" style="color: white;">Odjava</NavLink>
+                        </div>
+                    </Authorized>
 
-                
+                    <NotAuthorized>
+                        <div style="margin-left: 20px;">
+                            <NavLink class="nav-link" href="./login" style="color: white;">Prijava</NavLink>
+                        </div>
+
+                        <div style="margin-left: 20px;">
+                            <NavLink class="nav-link" href="./register" style="color: white;">Registracija</NavLink>
+                        </div>
+                    </NotAuthorized>
+                </AuthorizeView>
             </div>
         </div>
 
@@ -64,26 +67,3 @@
         </article>
     </main>
 </div>
-
-
-@code{
-    private User? loggedUser { get; set; }
-    private bool showLogin { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        var email = "karlojakopov@gmail.com";
-        loggedUser = Context.Users.Where(x => x.Email == email).FirstOrDefault()!;
-
-        if(loggedUser is null)
-        {
-            showLogin = true;
-        }
-        else
-        {
-            showLogin = false;
-        }
-
-        await base.OnInitializedAsync();
-    }
-}

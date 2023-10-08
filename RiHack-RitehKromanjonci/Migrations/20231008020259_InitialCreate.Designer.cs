@@ -12,7 +12,7 @@ using RiHack_RitehKromanjonci.Data;
 namespace RiHack_RitehKromanjonci.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231007204648_InitialCreate")]
+    [Migration("20231008020259_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -24,6 +24,34 @@ namespace RiHack_RitehKromanjonci.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("RiHack_RitehKromanjonci.Models.DiscussionPost", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DatePosted")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DiscussionPosts");
+                });
 
             modelBuilder.Entity("RiHack_RitehKromanjonci.Models.PostModel", b =>
                 {
@@ -63,6 +91,38 @@ namespace RiHack_RitehKromanjonci.Migrations
                     b.ToTable("Posts");
                 });
 
+            modelBuilder.Entity("RiHack_RitehKromanjonci.Models.Reply", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DatePosted")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("DiscussionPostId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Reply");
+                });
+
             modelBuilder.Entity("RiHack_RitehKromanjonci.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -78,6 +138,12 @@ namespace RiHack_RitehKromanjonci.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("Points")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Ranks")
+                        .HasColumnType("integer");
 
                     b.Property<int?>("UserId")
                         .HasColumnType("integer");
@@ -102,11 +168,27 @@ namespace RiHack_RitehKromanjonci.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("RiHack_RitehKromanjonci.Models.Reply", b =>
+                {
+                    b.HasOne("RiHack_RitehKromanjonci.Models.DiscussionPost", "Post")
+                        .WithMany("Replies")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+                });
+
             modelBuilder.Entity("RiHack_RitehKromanjonci.Models.User", b =>
                 {
                     b.HasOne("RiHack_RitehKromanjonci.Models.User", null)
                         .WithMany("Friends")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("RiHack_RitehKromanjonci.Models.DiscussionPost", b =>
+                {
+                    b.Navigation("Replies");
                 });
 
             modelBuilder.Entity("RiHack_RitehKromanjonci.Models.User", b =>

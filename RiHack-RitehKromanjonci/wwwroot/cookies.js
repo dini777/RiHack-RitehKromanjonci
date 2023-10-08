@@ -18,3 +18,20 @@ function getEmailFromCookie() {
     }
     return null; // Return null if the cookie is not found
 }
+
+function autoLogout() {
+    var form = document.createElement('form');
+    form.method = 'post';
+    form.action = '/logout'; // Assuming this is the correct URL
+
+    var csrfToken = document.getElementsByName('__RequestVerificationToken')[0].value;
+    var csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = '__RequestVerificationToken';
+    csrfInput.value = csrfToken;
+
+    form.appendChild(csrfInput);
+
+    document.body.appendChild(form);
+    form.submit();
+}

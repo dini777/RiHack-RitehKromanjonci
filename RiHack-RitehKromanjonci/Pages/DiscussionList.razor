@@ -1,0 +1,29 @@
+﻿@page "/Discussions"
+@using RiHack_RitehKromanjonci.Data;
+@using RiHack_RitehKromanjonci.Models;
+@inject AppDbContext dbContext
+@inject NavigationManager navigationManager
+
+<h3>Discussion Forum</h3>
+
+@foreach (var post in discussionPosts)
+{
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">@post.Title</h5>
+            <p class="card-text">@post.Content</p>
+            <p class="card-text">Posted by: @post.Author | Date: @post.DatePosted.ToString("yyyy-MM-dd")</p>
+            <a href="/replies/@post.Id" class="btn btn-primary">View Replies</a>
+            <a href="/replytodiscussion/@post.Id" class="btn btn-primary">Reply</a>
+        </div>
+    </div>
+}
+
+@code {
+    private List<DiscussionPost> discussionPosts;
+
+    protected override void OnInitialized()
+    {
+        discussionPosts = dbContext.DiscussionPosts.ToList();
+    }
+}
