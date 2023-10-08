@@ -4,11 +4,25 @@
 @using System.Security.Claims;
 
 @inject AppDbContext Context
+@inject IHttpContextAccessor HttpContextAccessor
+@inject IJSRuntime JSRuntime
+@inject NavigationManager navManager
 
 
 <PageTitle>Sportleaf</PageTitle>
 
-<CreatePost />
+
+@if (loggedUser is not null)
+{
+    <CreatePost Username="@loggedUser.Username"
+                PostDescription="@activityDescription"
+                EventTime="@TimeOfEvent"
+                Latitude="@userLatitude"
+                Longitude="@userLongitude" />
+    <button onclick="@(async () => {await PublicateThePost();})" style="width: 100%; align-content: center;" class="button">Objavi</button>
+}
+
+
 
 @if (posts is not null)
 {
@@ -35,10 +49,18 @@
 }
 
 @code{
+    private User? loggedUser { get; set; }
+    private double userLatitude = 45.339441070869256;
+    private double userLongitude = 14.427323128634512;
+    private DateTime TimeOfEvent = DateTime.UtcNow;
     private List<PostModel> posts { get; set; }
+    public string activityDescription { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
+        var email = GetUserEmailFromCookie();
+
+        loggedUser = Context.Users.Where(x => x.Email == email).FirstOrDefault()!;
         
         posts = Context.Posts.ToList();
 
@@ -59,6 +81,61 @@
             StateHasChanged();
         }
 
+    }
+
+    async Task PublicateThePost()
+    {
+        var post = new PostModel
+        {
+            EventTime = TimeOfEvent,
+            Latitude = userLatitude,
+            Longitude = userLongitude,
+            UserName = loggedUser.Username,
+            NumberOfJoins = 0,
+            PostDescription = activityDescription,
+            UserId = loggedUser.Id
+        };
+
+        Context.Posts.Add(post);
+        await Context.SaveChangesAsync();
+
+        StateHasChanged();
+        navManager.NavigateTo("/");
+
+
+    }
+
+    private Dictionary<string, string> ParseCookieData(string cookieValue)
+    {
+        var data = new Dictionary<string, string>();
+        var keyValuePairs = cookieValue.Split('&');
+        foreach (var keyValuePair in keyValuePairs)
+        {
+            var parts = keyValuePair.Split('=');
+            if (parts.Length == 2)
+            {
+                var key = parts[0];
+                var value = parts[1];
+                data[key] = value;
+            }
+        }
+        return data;
+    }
+
+    // Get the user's email from the cookie
+    public string GetUserEmailFromCookie()
+    {
+        var principal = HttpContextAccessor.HttpContext.User;
+        if (principal.Identity.IsAuthenticated)
+        {
+            var emailClaim = principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+            var email = emailClaim?.Value ?? "Not Found";
+            return email;
+        }
+        else
+        {
+            return "Not authenticated";
+        }
     }
 
 }
