@@ -5,10 +5,10 @@
     font-family: Arial, sans-serif; /* Specify your preferred font-family */
     font-weight: bold; /* Make the text bold */
     font-size: 24px; /* Set the font size to your preference */
-    color: #333; /* Set the text color */
+    color: #00ADB5; /* Set the text color */
     /* Add any other styles you want */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add a text shadow for contrast */
-    background-color: #333; /* Set a background color for contrast */
+    background-color: #00ADB5; /* Set a background color for contrast */
     padding: 10px 20px; /* Add padding for readability */
 }
 
@@ -22,7 +22,7 @@
     height: 35px;
     line-height: 35px;
     border-radius: 4px;
-    background-color: #00CC66;
+    background-color: #00ADB5;
     color: white;
     font-weight: 400;
     font-size: 16px;
@@ -33,7 +33,7 @@
 }
 
     .login-button:hover {
-        background: #ABE098;
+        background: #00ADB5;
         box-shadow: 0 6px 20px rgb(0 118 255 / 23%);
         animation: shake 2s;
     }
