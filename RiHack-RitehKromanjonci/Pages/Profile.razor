@@ -2,9 +2,32 @@
 @using RiHack_RitehKromanjonci.Data;
 @using RiHack_RitehKromanjonci.Models;
 @using System.Security.Claims;
-
+<link rel="stylesheet" href="~/css/profile.css" />
 @inject AppDbContext Context
 @inject IHttpContextAccessor HttpContextAccessor
+
+<!-- header section start -->
+
+
+<header>
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="logoBox">
+                <button><a href="./"><img src="images/icons8-home-480.png" alt="home"></a></button>
+            </div>
+            <div class="searchBox">
+                <input type="search">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="iconBox2">
+                <button><a href="./Discussions"><img src="images/icons8-chat-50.png" alt="chat"></a></button>
+                <button><a href="./logout"><img src="images/icons8-logout-30.png" alt="logout"></a></button>
+                <button><a href="./user_profile"><label><img src="images/user.jpg" alt="user"></label></a></button>
+
+            </div>
+        </div>
+    </div>
+</header>
 
 @if (loggedUser is not null)
 {
