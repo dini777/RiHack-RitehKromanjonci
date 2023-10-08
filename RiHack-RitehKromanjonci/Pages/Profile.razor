@@ -14,9 +14,9 @@
             <p style="margin-top: 5px; font-weight: bold; font-size: 30px;">@(loggedUser.Username)</p>
         </div>
         <div>
-            <p>broj bodova</p>
+            <p>Broj Bodova: @points</p>
         </div>
-        @if (Rank == Rank.Beginner)
+        @if (loggedUser.Ranks == Rank.Beginner)
         {
             <div style="text-align: center;">
                 <img style="width: 200px; height: 200px;" src="./images/1.png" alt="Beginner-Picture">
@@ -24,7 +24,7 @@
             </div>
         }
 
-        @if (Rank == Rank.Intermediate)
+        @if (loggedUser.Ranks == Rank.Intermediate)
         {
             <div style="text-align: center;">
                 <img style="width: 200px; height: 200px;" src="./images/2.png" alt="Intermediate-Picture">
@@ -32,7 +32,7 @@
             </div>
         }
 
-        @if (Rank == Rank.Trainer)
+        @if (loggedUser.Ranks == Rank.Trainer)
         {
             <div style="text-align: center;">
                 <img style="width: 200px; height: 200px;" src="./images/3.png" alt="Trainer-Picture">
@@ -51,8 +51,20 @@
                 @foreach (var friend in friends)
                 {
                     <div style="display: flex; align-items: center; border: solid 2px black; border-radius: 5px;">
-                        
-                        <img style="margin-right: 20%; margin-left: 5%; width: 200px; height: 200px;" src="./images/1.png" alt="Trainer-Picture">
+                        @if (friend.Ranks == Rank.Beginner)
+                        {
+                            <img style="width: 200px; height: 200px;" src="./images/1.png" alt="Beginner-Picture">
+                        }
+
+                        @if (friend.Ranks == Rank.Intermediate)
+                        {
+                            <img style="width: 200px; height: 200px;" src="./images/2.png" alt="Intermediate-Picture">
+                        }
+
+                        @if (friend.Ranks == Rank.Trainer)
+                        {
+                            <img style="width: 200px; height: 200px;" src="./images/3.png" alt="Trainer-Picture">
+                        }
                         <p style="margin-top: 5px;  font-weight: bold; font-size: 50px;">@friend.Username</p>
                     </div>
                 }
@@ -92,8 +104,7 @@
 
 
 @code {
-    private Rank Rank { get; set; } = Rank.Empty;
-
+    private int points { get; set; } = 0;
     private User? loggedUser { get; set; }
     private List<PostModel> posts { get; set; }
     private List<User> friends { get; set; }
@@ -105,6 +116,7 @@
 
         if (loggedUser is not null)
         {
+            points = Context.Posts.Where(x => x.UserId == loggedUser.Id).Select(x => x.NumberOfJoins).Sum();
             posts = Context.Posts.Where(x => x.UserId == loggedUser.Id).ToList();
             friends = loggedUser.Friends;
 
