@@ -118,7 +118,7 @@ header {
 }
 
     .searchBox i:hover {
-        color: #1877f2;
+        color: #00ADB5;
     }
 
 .iconBox1 i,
@@ -293,7 +293,7 @@ header {
     }
 
         .explore a:hover {
-            color: #1877f2;
+            color: #00ADB5;
         }
 
         .explore a i {
@@ -383,7 +383,7 @@ header {
         top: 0;
         border-radius: 50px;
         overflow: hidden;
-        border: 3px solid #1877f2;
+        border: 3px solid #00ADB5;
     }
 
         .single-stories label img {
@@ -684,7 +684,7 @@ header {
 }
 
     .event-date h3 {
-        color: #9ef01a;
+        color: ##00ADB5;
         text-align: center;
         line-height: 20px;
         margin-right: 10px;
@@ -714,7 +714,7 @@ header {
 
 .event button {
     padding: 6px;
-    background: #1877f2;
+    background: #00ADB5;
     color: white;
     border-radius: 6px;
     border: none;
@@ -762,7 +762,7 @@ header {
     }
 
     .friend ul li button {
-        background: #1877f2;
+        background: #00ADB5;
         border: none;
         padding: 3px 10px;
         color: white;
@@ -787,7 +787,7 @@ header {
     .create-page ul li .fa-circle-plus {
         color: white;
         padding: 10px;
-        background: #1877f2;
+        background: #00ADB5;
         border-radius: 10px;
         font-size: 20px;
         margin-right: 8px;
@@ -817,7 +817,7 @@ header {
         font-size: 12px;
         border: none;
         padding: 3px 10px;
-        background: #1877f2;
+        background: #00ADB5;
         color: white;
         border-radius: 50px;
         cursor: pointer;
@@ -844,7 +844,7 @@ header {
     .messenger-search .fa-user-group {
         color: white;
         padding: 10px;
-        background: #1877f2;
+        background: #00ADB5;
         border-radius: 10px;
         font-size: 20px;
         margin-right: 8px;
@@ -913,7 +913,7 @@ header {
             display: block;
             width: 7px;
             height: 7px;
-            background: #12da01;
+            background: #00ADB5;
             position: absolute;
             border-radius: 50px;
             top: 4px;
@@ -921,18 +921,18 @@ header {
         }
 
         .messenger ul li:nth-child(2) span::before {
-            background: #ff9600;
+            background: #00ADB5;
         }
 
         .messenger ul li i {
-            color: #1877f2;
+            color: #00ADB5;
             position: absolute;
             right: 12px;
             top: 35%;
             background: white;
             padding: 5px;
             border-radius: 50px;
-            box-shadow: 0 2px 5px #95959561;
+            box-shadow: 0 2px 5px #00ADB5;
         }
 
 .messenger-search .fa-magnifying-glass {
