@@ -2,7 +2,7 @@
     height: 100%;
 }
 .submit-button {
-    background-color: #46670C;
+    background-color: #393E46;
     border-radius: 5px;
 }
 
@@ -10,7 +10,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-    background: linear-gradient(#9ef01a, #80b918);
+    background: linear-gradient(#EEEEEE, #00ADB5);
 }
 
 .login-box {
@@ -22,7 +22,7 @@ body {
     transform: translate(-50%, -50%);
     background: rgba(0,0,0,.5);
     box-sizing: border-box;
-    box-shadow: 0 15px 25px rgba(0,0,0,.6);
+    box-shadow: 0 15px 25px rgba(0,0,0,.5);
     border-radius: 10px;
 }
 
@@ -64,7 +64,7 @@ body {
         .login-box .user-box input:valid ~ label {
             top: -20px;
             left: 0;
-            color: #ccff33;
+            color: #EEEEEE;
             font-size: 12px;
         }
 
@@ -72,7 +72,7 @@ body {
         position: relative;
         display: inline-block;
         padding: 10px 20px;
-        color: #ccff33;
+        color: #EEEEEE;
         font-size: 16px;
         text-decoration: none;
         text-transform: uppercase;
@@ -83,10 +83,10 @@ body {
     }
 
     .login-box .submit-button:hover {
-        background: #ccff33;
+        background: #00ADB5;
         color: #fff;
         border-radius: 5px;
-        box-shadow: 0 0 5px #ccff33, 0 0 25px #ccff33, 0 0 50px #ccff33, 0 0 100px #ccff33;
+        box-shadow: 0 0 5px #222831, 0 0 25px #393E46, 0 0 50px #00ADB5, 0 0 100px #00ADB5;
     }
 
     .login-box .submit-button span {
@@ -99,7 +99,7 @@ body {
             left: -100%;
             width: 100%;
             height: 2px;
-            background: linear-gradient(90deg, transparent, #affc41);
+            background: linear-gradient(90deg, transparent, #00ADB5);
             animation: btn-anim1 1s linear infinite;
         }
 
@@ -118,7 +118,7 @@ body {
     right: 0;
     width: 2px;
     height: 100%;
-    background: linear-gradient(180deg, transparent, #abff4f);
+    background: linear-gradient(180deg, transparent, #393E46);
     animation: btn-anim2 1s linear infinite;
     animation-delay: .25s
 }
@@ -138,7 +138,7 @@ body {
     right: -100%;
     width: 100%;
     height: 2px;
-    background: linear-gradient(270deg, transparent, #2b9348);
+    background: linear-gradient(270deg, transparent, #00ADB5);
     animation: btn-anim3 1s linear infinite;
     animation-delay: .5s
 }
@@ -158,7 +158,7 @@ body {
     left: 0;
     width: 2px;
     height: 100%;
-    background: linear-gradient(360deg, transparent, #ccff33);
+    background: linear-gradient(360deg, transparent, #00ADB5    );
     animation: btn-anim4 1s linear infinite;
     animation-delay: .75s
 }

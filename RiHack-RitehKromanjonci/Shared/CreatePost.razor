@@ -25,14 +25,7 @@
         <input type="text" class="my-input" placeholder="Opišite aktivnost..." @bind="PostDescription" />
     </div>
     <div class="map">
-        <RadzenGoogleMap Style="height: 600px;"
-                         Zoom="@zoom"
-                         MapClick="@OnMapClick"
-                        Center="@(new GoogleMapPosition(){ Lat = Latitude, Lng = Longitude })">
-            <Markers>
-                <RadzenGoogleMapMarker Position="@(new GoogleMapPosition(){ Lat = Latitude, Lng = Longitude })" />
-            </Markers>
-        </RadzenGoogleMap>
+        
         
     </div>
    

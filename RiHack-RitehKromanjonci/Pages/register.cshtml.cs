@@ -69,7 +69,7 @@ namespace RiHack_RitehKromanjonci.Pages
         async Task CheckOIBValidity()
         {
             //feature za dodati :)
-            await Task.Delay(15000);
+            await Task.Delay(10000);
         }
     }
     
